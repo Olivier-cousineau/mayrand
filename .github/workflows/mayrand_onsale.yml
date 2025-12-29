@@ -1,0 +1,46 @@
+name: Mayrand onsale scraper
+
+on:
+  schedule:
+    - cron: "15 3 * * *" # Daily at 03:15 UTC
+    # - cron: "15 3 * * 1" # Weekly on Monday at 03:15 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: mayrand-onsale
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run scraper
+        run: node scripts/scrape_mayrand_onsale.mjs
+
+      - name: Commit and push if changed
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/mayrand/onsale outputs
+          git commit -m "Mayrand: update onsale data"
+          git push
