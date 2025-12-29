@@ -40,9 +40,7 @@ jobs:
       - name: Run scraper
         run: node scripts/scrape_mayrand_onsale.mjs
 
-      - name: Commit and open PR if changed
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit and print PR link if changed
         run: |
           if git diff --quiet; then
             echo "No changes to commit."
@@ -68,10 +66,4 @@ jobs:
             echo "Error: push to origin failed. Check token permissions and remote configuration."
             exit 1
           fi
-          if [ -z "$existing_branch" ]; then
-            gh pr create \
-              --title "Mayrand: update onsale data" \
-              --body "Automated update of Mayrand onsale data." \
-              --base main \
-              --head "$BRANCH"
-          fi
+          echo "Open a PR: https://github.com/${{ github.repository }}/pull/new/$BRANCH"
