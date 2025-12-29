@@ -6,6 +6,10 @@ on:
     # - cron: "15 3 * * 1" # Weekly on Monday at 03:15 UTC
   workflow_dispatch:
 
+permissions:
+  contents: write
+  actions: write
+
 concurrency:
   group: mayrand-onsale
   cancel-in-progress: false
@@ -17,6 +21,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ github.token }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -54,7 +61,13 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/mayrand/onsale outputs
           git commit -m "Mayrand: update onsale data"
-          git push -u origin "$BRANCH"
+          git remote set-url origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          if ! git push -u origin "$BRANCH"; then
+            echo "Push failed. Showing relevant git config:"
+            git config -l | grep -E 'remote|extraheader'
+            echo "Error: push to origin failed. Check token permissions and remote configuration."
+            exit 1
+          fi
           if [ -z "$existing_branch" ]; then
             gh pr create \
               --title "Mayrand: update onsale data" \
