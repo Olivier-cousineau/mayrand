@@ -470,51 +470,50 @@ const waitForCardsStable = async (page) => {
   return lastCount;
 };
 
-const dismissHubspotOverlay = async (page) => {
-  const overlaySelector = '#hs-interactives-modal-overlay';
-  const closeAttempted = await page.evaluate((selector) => {
-    const overlay = document.querySelector(selector);
-    if (!overlay) return false;
-    const closeButton =
-      overlay.querySelector(
-        '[aria-label="Close"], [aria-label*="Fermer" i], button[title*="close" i], button[title*="fermer" i], .close, .modal-close, [data-dismiss]'
-      ) || overlay.querySelector('button, [role="button"]');
-    if (closeButton) {
-      closeButton.click();
-      return true;
+const killOverlays = async (page) => {
+  await page.evaluate(() => {
+    const selectors = [
+      '#hs-interactives-modal-overlay',
+      '#hs-web-interactives-top-anchor',
+      '[id*="hs-interactives"]',
+      '[class*="modal-overlay"]',
+      '[class*="overlay"]',
+      '[role="dialog"]',
+    ];
+    for (const sel of selectors) {
+      document.querySelectorAll(sel).forEach((el) => el.remove());
     }
-    return false;
-  }, overlaySelector);
-
-  if (closeAttempted) {
-    await page.waitForTimeout(300);
-  }
-
-  const overlayStillPresent = await page.evaluate((selector) => {
-    const overlay = document.querySelector(selector);
-    if (!overlay) return false;
-    const style = window.getComputedStyle(overlay);
-    return style.display !== 'none' && style.visibility !== 'hidden';
-  }, overlaySelector);
-
-  if (overlayStillPresent) {
-    await page.addStyleTag({
-      content: `${overlaySelector}{display:none !important;pointer-events:none !important;}`,
+    document.querySelectorAll('body *').forEach((el) => {
+      const id = (el.id || '').toLowerCase();
+      const cls = (el.className || '').toString().toLowerCase();
+      if (id.includes('overlay') || cls.includes('overlay')) {
+        el.style.pointerEvents = 'none';
+      }
     });
-  }
-
-  const overlayStillBlocking = await page.evaluate((selector) => {
-    const overlay = document.querySelector(selector);
-    return Boolean(overlay);
-  }, overlaySelector);
-
-  if (overlayStillBlocking) {
-    await page.evaluate((selector) => {
-      const overlay = document.querySelector(selector);
-      if (overlay) overlay.remove();
-    }, overlaySelector);
-  }
+  });
 };
+
+const getActivePage = async (page) =>
+  page.evaluate(() => {
+    const btns = Array.from(document.querySelectorAll('button.pagination-btn'));
+    const active =
+      btns.find((b) => b.classList.contains('active')) ||
+      btns.find((b) => b.getAttribute('aria-current') === 'page');
+    const raw = active?.getAttribute('data-page') || active?.textContent?.trim() || null;
+    const n = raw ? Number(String(raw).replace(/\D/g, '')) : null;
+    return Number.isFinite(n) ? n : null;
+  });
+
+const getCardsSignature = async (page) =>
+  page.evaluate(() => {
+    const cards = Array.from(document.querySelectorAll('.product-container *'))
+      .filter(
+        (el) => el.tagName === 'A' || (el.className || '').toString().toLowerCase().includes('product')
+      )
+      .slice(0, 15);
+    const sig = cards.map((el) => (el.getAttribute('href') || el.textContent || '').trim().slice(0, 80));
+    return sig.join('|');
+  });
 
 const goToPage = async (page, baseUrl, targetPage) => {
   const buttonSelector = `button.pagination-btn[data-page="${targetPage}"]`;
@@ -524,70 +523,95 @@ const goToPage = async (page, baseUrl, targetPage) => {
       (await button.getAttribute('disabled')) !== null ||
       (await button.getAttribute('aria-disabled')) === 'true';
     if (!isDisabled) {
-      await dismissHubspotOverlay(page);
-      const previousState = await page.evaluate((cardsSelector) => {
-        const normalizeWhitespace = (value) =>
-          value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
-        const cards = Array.from(document.querySelectorAll(cardsSelector)).slice(0, 3);
-        const cardsSignature = cards
-          .map((card) => normalizeWhitespace(card?.innerText || card?.textContent || ''))
-          .filter(Boolean)
-          .join(' | ');
-        const activeButton =
-          document.querySelector(
-            'button.pagination-btn[aria-current="page"], button.pagination-btn.active, button.pagination-btn.is-active'
-          ) || null;
-        const activePage = activeButton?.getAttribute('data-page') || null;
-        return { cardsSignature, activePage };
-      }, CARDS_SELECTOR);
-      await button.click({ timeout: 15000 });
-      await page.waitForFunction(
-        ({ targetPageValue }) => {
-          const activeButton =
-            document.querySelector(
-              'button.pagination-btn[aria-current="page"], button.pagination-btn.active, button.pagination-btn.is-active'
-            ) || null;
-          const activePage = activeButton?.getAttribute('data-page') || null;
-          return Boolean(activePage && String(activePage) === String(targetPageValue));
-        },
-        {
-          timeout: 15000,
-        },
-        {
-          targetPageValue: String(targetPage),
+      for (let attempt = 1; attempt <= 3; attempt += 1) {
+        await killOverlays(page);
+
+        const beforeActive = await getActivePage(page);
+        const beforeSig = await getCardsSignature(page);
+
+        await button.scrollIntoViewIfNeeded();
+
+        try {
+          await button.click({ timeout: 15000 });
+        } catch {
+          await killOverlays(page);
+          await button.click({ timeout: 15000, force: true });
         }
-      );
-      try {
-        await page.waitForFunction(
-          ({ cardsSelector, beforeSignature }) => {
-            if (!beforeSignature) return true;
-            const normalizeWhitespace = (value) =>
-              value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
-            const cards = Array.from(document.querySelectorAll(cardsSelector)).slice(0, 3);
-            const cardsSignature = cards
-              .map((card) => normalizeWhitespace(card?.innerText || card?.textContent || ''))
-              .filter(Boolean)
-              .join(' | ');
-            return Boolean(cardsSignature && cardsSignature !== beforeSignature);
-          },
-          {
-            timeout: 5000,
-          },
-          {
-            cardsSelector: CARDS_SELECTOR,
-            beforeSignature: previousState.cardsSignature,
-          }
-        );
-      } catch (error) {
-        if (error?.name !== 'TimeoutError') {
-          throw error;
+
+        try {
+          await Promise.race([
+            page.waitForFunction(
+              (target) => {
+                const btns = Array.from(document.querySelectorAll('button.pagination-btn'));
+                const active =
+                  btns.find((b) => b.classList.contains('active')) ||
+                  btns.find((b) => b.getAttribute('aria-current') === 'page');
+                const raw = active?.getAttribute('data-page') || active?.textContent?.trim() || '';
+                const n = Number(String(raw).replace(/\D/g, ''));
+                return Number.isFinite(n) && n === Number(target);
+              },
+              targetPage,
+              { timeout: 20000 }
+            ),
+            page.waitForFunction(
+              (prevSig) => {
+                const cards = Array.from(document.querySelectorAll('.product-container *'))
+                  .filter(
+                    (el) =>
+                      el.tagName === 'A' ||
+                      (el.className || '').toString().toLowerCase().includes('product')
+                  )
+                  .slice(0, 15);
+                const sig = cards
+                  .map((el) => (el.getAttribute('href') || el.textContent || '').trim().slice(0, 80))
+                  .join('|');
+                return sig && sig !== prevSig;
+              },
+              beforeSig,
+              { timeout: 20000 }
+            ),
+            page.waitForFunction(
+              () => {
+                const n = document.querySelectorAll('.product-container .product-card, .product-container a')
+                  .length;
+                return n >= 40;
+              },
+              { timeout: 20000 }
+            ),
+          ]);
+
+          const afterActive = await getActivePage(page);
+          const afterSig = await getCardsSignature(page);
+
+          console.log('Pagination status', {
+            attempt,
+            target: targetPage,
+            beforeActive,
+            afterActive,
+            sigChanged: beforeSig !== afterSig,
+          });
+
+          return page.url();
+        } catch (error) {
+          const afterActive = await getActivePage(page);
+          console.log('Pagination attempt failed', {
+            attempt,
+            target: targetPage,
+            beforeActive,
+            afterActive,
+            error: error?.message,
+          });
+          await page.waitForTimeout(800);
         }
       }
-      await page.waitForLoadState('domcontentloaded');
-      await page.waitForTimeout(750);
-      await page.waitForSelector(CARDS_SELECTOR, { timeout: 15000 });
-      await waitForCardsStable(page);
-      return page.url();
+
+      await page.screenshot({
+        path: path.join(DEBUG_DIR, `mayrand-pagination-fail-${targetPage}.png`),
+        fullPage: true,
+      });
+      const html = await page.content();
+      await fs.writeFile(path.join(DEBUG_DIR, `mayrand-pagination-fail-${targetPage}.html`), html, 'utf8');
+      throw new Error(`Failed to navigate to page ${targetPage} after 3 attempts`);
     }
   }
 
