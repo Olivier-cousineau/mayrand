@@ -61,8 +61,7 @@ const buildFallbackUrl = (sku, name, baseUrl) => {
   return `${baseUrl}#${encodeURIComponent(anchor.replace(/\s+/g, '-').slice(0, 80))}`;
 };
 
-const uniqueKeyForItem = (item) =>
-  item.sku || item.url || `${item.name ?? ''}-${item.unit_label ?? ''}`.trim();
+const uniqueKeyForItem = (item) => item.sku || item.url || null;
 
 const ensureDirs = async () => {
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
@@ -648,6 +647,9 @@ const readHistoricalCount = async () => {
     const metadata = JSON.parse(
       await fs.readFile(path.join(OUTPUT_DIR, 'metadata.json'), 'utf8')
     );
+    if (Number.isFinite(metadata?.totalItems)) {
+      return metadata.totalItems;
+    }
     if (Number.isFinite(metadata?.total_items)) {
       return metadata.total_items;
     }
@@ -679,6 +681,7 @@ const scrapeListing = async (page, query) => {
   }
   const baseUrlString = baseUrl.toString();
   const allItems = [];
+  const uniqueItems = new Map();
   let currentPage = 1;
   let maxPage = null;
   let emptyPageStreak = 0;
@@ -785,14 +788,25 @@ const scrapeListing = async (page, query) => {
       };
     });
 
-    allItems.push(...pageItems);
+    pageItems.forEach((item) => {
+      const key = uniqueKeyForItem(item);
+      if (key) {
+        if (!uniqueItems.has(key)) {
+          uniqueItems.set(key, item);
+          allItems.push(item);
+        }
+        return;
+      }
+      allItems.push(item);
+    });
 
     pageCount += 1;
 
-    if (maxPage === null) {
-      maxPage =
-        getMaxPageFromButtons(extracted.paginationButtons) ??
-        getPaginationInfo(extracted.paginationLinks, baseUrl);
+    const derivedMaxPage =
+      getMaxPageFromButtons(extracted.paginationButtons) ??
+      getPaginationInfo(extracted.paginationLinks, baseUrl);
+    if (Number.isFinite(derivedMaxPage)) {
+      maxPage = maxPage === null ? derivedMaxPage : Math.max(maxPage, derivedMaxPage);
     }
 
     console.log(
@@ -892,16 +906,16 @@ const main = async () => {
   await browser.close();
 
   const uniqueItems = new Map();
+  const finalItems = [];
   const candidateItems = result?.items ?? [];
   candidateItems.forEach((item) => {
     const key = uniqueKeyForItem(item);
-    if (!key) return;
-    if (!uniqueItems.has(key)) {
+    if (key) {
+      if (uniqueItems.has(key)) return;
       uniqueItems.set(key, item);
     }
+    finalItems.push(item);
   });
-
-  const finalItems = Array.from(uniqueItems.values());
 
   const historicalCount = await readHistoricalCount();
   if (finalItems.length === 0) {
@@ -911,11 +925,8 @@ const main = async () => {
       );
     }
     await writeJson(path.join(OUTPUT_DIR, 'metadata.json'), {
-      timestamp: new Date().toISOString(),
-      total_items: finalItems.length,
-      query_used: queryUsed,
-      pages_scraped: result?.pageCount ?? 0,
-      stopped_reason: result?.stoppedReason ?? null,
+      pagesScraped: result?.pageCount ?? 0,
+      totalItems: finalItems.length,
     });
     return;
   }
@@ -924,11 +935,8 @@ const main = async () => {
   await writeCsv(path.join(OUTPUT_DIR, 'data.csv'), finalItems);
 
   await writeJson(path.join(OUTPUT_DIR, 'metadata.json'), {
-    timestamp: new Date().toISOString(),
-    total_items: finalItems.length,
-    query_used: queryUsed,
-    pages_scraped: result?.pageCount ?? 0,
-    stopped_reason: result?.stoppedReason ?? null,
+    pagesScraped: result?.pageCount ?? 0,
+    totalItems: finalItems.length,
   });
 };
 
