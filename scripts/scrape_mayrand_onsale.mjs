@@ -470,6 +470,52 @@ const waitForCardsStable = async (page) => {
   return lastCount;
 };
 
+const dismissHubspotOverlay = async (page) => {
+  const overlaySelector = '#hs-interactives-modal-overlay';
+  const closeAttempted = await page.evaluate((selector) => {
+    const overlay = document.querySelector(selector);
+    if (!overlay) return false;
+    const closeButton =
+      overlay.querySelector(
+        '[aria-label="Close"], [aria-label*="Fermer" i], button[title*="close" i], button[title*="fermer" i], .close, .modal-close, [data-dismiss]'
+      ) || overlay.querySelector('button, [role="button"]');
+    if (closeButton) {
+      closeButton.click();
+      return true;
+    }
+    return false;
+  }, overlaySelector);
+
+  if (closeAttempted) {
+    await page.waitForTimeout(300);
+  }
+
+  const overlayStillPresent = await page.evaluate((selector) => {
+    const overlay = document.querySelector(selector);
+    if (!overlay) return false;
+    const style = window.getComputedStyle(overlay);
+    return style.display !== 'none' && style.visibility !== 'hidden';
+  }, overlaySelector);
+
+  if (overlayStillPresent) {
+    await page.addStyleTag({
+      content: `${overlaySelector}{display:none !important;pointer-events:none !important;}`,
+    });
+  }
+
+  const overlayStillBlocking = await page.evaluate((selector) => {
+    const overlay = document.querySelector(selector);
+    return Boolean(overlay);
+  }, overlaySelector);
+
+  if (overlayStillBlocking) {
+    await page.evaluate((selector) => {
+      const overlay = document.querySelector(selector);
+      if (overlay) overlay.remove();
+    }, overlaySelector);
+  }
+};
+
 const goToPage = async (page, baseUrl, targetPage) => {
   const buttonSelector = `button.pagination-btn[data-page="${targetPage}"]`;
   const button = page.locator(buttonSelector).first();
@@ -478,7 +524,50 @@ const goToPage = async (page, baseUrl, targetPage) => {
       (await button.getAttribute('disabled')) !== null ||
       (await button.getAttribute('aria-disabled')) === 'true';
     if (!isDisabled) {
-      await button.click({ timeout: 5000 });
+      await dismissHubspotOverlay(page);
+      const previousState = await page.evaluate((cardsSelector) => {
+        const normalizeWhitespace = (value) =>
+          value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
+        const firstCard = document.querySelector(cardsSelector);
+        const firstText = normalizeWhitespace(firstCard?.innerText || firstCard?.textContent || '');
+        const activeButton =
+          document.querySelector(
+            'button.pagination-btn[aria-current="page"], button.pagination-btn.active, button.pagination-btn.is-active'
+          ) || null;
+        const activePage = activeButton?.getAttribute('data-page') || null;
+        return { firstText, activePage };
+      }, CARDS_SELECTOR);
+      await button.click({ timeout: 15000 });
+      await page.waitForFunction(
+        ({ cardsSelector, beforeText, beforeActive, targetPageValue }) => {
+          const normalizeWhitespace = (value) =>
+            value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
+          const firstCard = document.querySelector(cardsSelector);
+          const firstText = normalizeWhitespace(
+            firstCard?.innerText || firstCard?.textContent || ''
+          );
+          const activeButton =
+            document.querySelector(
+              'button.pagination-btn[aria-current="page"], button.pagination-btn.active, button.pagination-btn.is-active'
+            ) || null;
+          const activePage = activeButton?.getAttribute('data-page') || null;
+          const activeChanged =
+            activePage &&
+            activePage !== beforeActive &&
+            String(activePage) === String(targetPageValue);
+          const textChanged = firstText && firstText !== beforeText;
+          return Boolean(activeChanged || textChanged);
+        },
+        {
+          timeout: 15000,
+        },
+        {
+          cardsSelector: CARDS_SELECTOR,
+          beforeText: previousState.firstText,
+          beforeActive: previousState.activePage,
+          targetPageValue: String(targetPage),
+        }
+      );
       await page.waitForLoadState('domcontentloaded');
       await page.waitForTimeout(750);
       await page.waitForSelector(CARDS_SELECTOR, { timeout: 15000 });
