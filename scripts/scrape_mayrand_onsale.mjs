@@ -2,10 +2,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
 
-const BASE_URL = 'https://mayrand.ca/fr/page-recherche?search=onsale';
+const BASE_URL = 'https://mayrand.ca/fr/page-recherche';
 const OUTPUT_DIR = path.join('public', 'mayrand', 'onsale');
 const DEBUG_DIR = path.join('outputs', 'debug');
-const QUERY = 'onsale';
 const SOURCE = 'mayrand';
 const USER_AGENT =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
@@ -13,6 +12,10 @@ const PAGE_TIMEOUT_MS = 45000;
 const PAGE_RETRY_COUNT = 2;
 const PAGE_MAX_LIMIT = 100;
 const RESULTS_WAIT_TIMEOUT_MS = 20000;
+const RESULT_WAIT_ATTEMPTS = 10;
+const RESULT_WAIT_INITIAL_DELAY_MS = 500;
+const RESULT_WAIT_MAX_DELAY_MS = 1500;
+const FALLBACK_QUERIES = ['onsale', 'solde', 'promo'];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -42,19 +45,19 @@ const parsePriceCandidates = (values) => {
   return { sale, regular };
 };
 
-const resolveUrl = (maybeUrl) => {
+const resolveUrl = (maybeUrl, baseUrl = BASE_URL) => {
   if (!maybeUrl) return null;
   try {
-    return new URL(maybeUrl, BASE_URL).toString();
+    return new URL(maybeUrl, baseUrl).toString();
   } catch {
     return null;
   }
 };
 
-const buildFallbackUrl = (sku, name) => {
+const buildFallbackUrl = (sku, name, baseUrl) => {
   const anchor = sku || name;
-  if (!anchor) return BASE_URL;
-  return `${BASE_URL}#${encodeURIComponent(anchor.replace(/\s+/g, '-').slice(0, 80))}`;
+  if (!anchor) return baseUrl;
+  return `${baseUrl}#${encodeURIComponent(anchor.replace(/\s+/g, '-').slice(0, 80))}`;
 };
 
 const uniqueKeyForItem = (item) =>
@@ -128,53 +131,126 @@ const acceptCookies = async (page) => {
   }
 };
 
-const waitForLoaders = async (page) => {
-  const loaderSelectors = [
-    '.loading',
-    '.loader',
-    '.spinner',
-    '.is-loading',
-    '[aria-busy="true"]',
-    '[data-loading="true"]',
-  ];
-  for (const selector of loaderSelectors) {
-    try {
-      await page.locator(selector).first().waitFor({ state: 'hidden', timeout: 5000 });
-    } catch {
-      continue;
+const getResultsDomState = async (page) =>
+  page.evaluate(() => {
+    const normalizeWhitespace = (value) =>
+      value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
+
+    const isVisible = (element) => {
+      if (!element) return false;
+      const style = window.getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return (
+        rect.width > 0 &&
+        rect.height > 0 &&
+        style.visibility !== 'hidden' &&
+        style.display !== 'none' &&
+        Number.parseFloat(style.opacity || '1') > 0
+      );
+    };
+
+    const containerSelectors = [
+      '.container-lg.dynamic-listing.search-results',
+      '.product-list',
+      '.product-listing',
+      '.search-results',
+      '.products',
+      '.product-grid',
+      '.listing',
+    ];
+    const cardSelectors = [
+      '[data-product-id]',
+      '[data-sku]',
+      '.product-tile',
+      '.product-item',
+      '.product',
+      '.product-container',
+      '.productBox',
+    ];
+    const loaderSelectors = [
+      '.loading',
+      '.loader',
+      '.spinner',
+      '.is-loading',
+      '[aria-busy="true"]',
+      '[data-loading="true"]',
+      '.skeleton',
+      '.skeleton-loader',
+    ];
+
+    const container = containerSelectors
+      .map((selector) => document.querySelector(selector))
+      .find(Boolean);
+    const scope = container ?? document;
+    const cards = scope.querySelectorAll(cardSelectors.join(','));
+    const loaderVisible = loaderSelectors.some((selector) => {
+      const node = document.querySelector(selector);
+      return node && isVisible(node);
+    });
+
+    const emptyStateTextFromSelectors = normalizeWhitespace(
+      Array.from(
+        document.querySelectorAll(
+          '.no-results, .empty, .results-empty, .search-empty, [data-testid="no-results"]'
+        )
+      )
+        .map((node) => node.textContent)
+        .find(Boolean)
+    );
+
+    const bodyText = normalizeWhitespace(document.body?.innerText || '');
+    const emptyStateMatch =
+      bodyText?.match(
+        /(Aucun r\u00e9sultat[^.]*|0\s*r\u00e9sultat[^.]*|Aucun produit[^.]*|No results[^.]*|0\s*results[^.]*)/i
+      ) ?? null;
+    const emptyStateText = emptyStateTextFromSelectors || emptyStateMatch?.[1] || null;
+
+    const resultsCountText = normalizeWhitespace(
+      Array.from(
+        document.querySelectorAll('.results-count, .search-result-count, .product-count, .count')
+      )
+        .map((node) => node.textContent)
+        .find(Boolean)
+    );
+
+    return {
+      cardsCount: cards.length,
+      loaderVisible,
+      resultsCountText,
+      emptyStateText,
+      containerSelector: container ? container.className || container.id : null,
+    };
+  });
+
+const waitForResultsWithRetry = async (page, contextLabel) => {
+  const step =
+    RESULT_WAIT_ATTEMPTS > 1
+      ? (RESULT_WAIT_MAX_DELAY_MS - RESULT_WAIT_INITIAL_DELAY_MS) / (RESULT_WAIT_ATTEMPTS - 1)
+      : 0;
+
+  for (let attempt = 1; attempt <= RESULT_WAIT_ATTEMPTS; attempt += 1) {
+    const state = await getResultsDomState(page);
+    console.log(`Mayrand onsale wait attempt ${attempt} (${contextLabel})`, state);
+
+    if (state.resultsCountText || state.cardsCount > 0 || !state.loaderVisible) {
+      await page.waitForTimeout(200);
+      return state;
     }
+
+    const delay = Math.round(
+      RESULT_WAIT_INITIAL_DELAY_MS + step * (attempt - 1)
+    );
+    await page.waitForTimeout(delay);
   }
+
+  await page.waitForTimeout(500);
+  return getResultsDomState(page);
 };
 
-const waitForResults = async (page) => {
-  await page.waitForFunction(
-    () => {
-      const containerSelectors = [
-        '.product-list',
-        '.product-listing',
-        '.search-results',
-        '.products',
-        '.product-grid',
-        '.listing',
-      ];
-      const cardSelectors = [
-        '[data-product-id]',
-        '[data-sku]',
-        '.product-tile',
-        '.product-item',
-        '.product',
-        '.product-container',
-        '.productBox',
-      ];
-      const container = containerSelectors
-        .map((selector) => document.querySelector(selector))
-        .find(Boolean);
-      const scope = container ?? document;
-      const cards = scope.querySelectorAll(cardSelectors.join(','));
-      return Boolean(container) || cards.length > 0;
-    },
-    { timeout: RESULTS_WAIT_TIMEOUT_MS }
-  );
+const buildSearchUrl = (query) => {
+  const url = new URL(BASE_URL);
+  url.searchParams.set('search', query);
+  return url.toString();
 };
 
 const scrapePage = async (page) => {
@@ -211,6 +287,7 @@ const scrapePage = async (page) => {
     const cards = Array.from(cardSet).filter((element) => isVisible(element));
 
     const containerSelectors = [
+      '.container-lg.dynamic-listing.search-results',
       '.product-list',
       '.product-listing',
       '.search-results',
@@ -300,7 +377,7 @@ const scrapePage = async (page) => {
         'href'
       ) || null;
 
-    const emptyStateText = normalizeWhitespace(
+    const emptyStateTextFromSelectors = normalizeWhitespace(
       Array.from(
         document.querySelectorAll(
           '.no-results, .empty, .results-empty, .search-empty, [data-testid="no-results"]'
@@ -309,6 +386,13 @@ const scrapePage = async (page) => {
         .map((node) => node.textContent)
         .find(Boolean)
     );
+
+    const bodyText = normalizeWhitespace(document.body?.innerText || '');
+    const emptyStateMatch =
+      bodyText?.match(
+        /(Aucun r\u00e9sultat[^.]*|0\s*r\u00e9sultat[^.]*|Aucun produit[^.]*|No results[^.]*|0\s*results[^.]*)/i
+      ) ?? null;
+    const emptyStateText = emptyStateTextFromSelectors || emptyStateMatch?.[1] || null;
 
     const resultsCountText = normalizeWhitespace(
       Array.from(
@@ -331,12 +415,12 @@ const scrapePage = async (page) => {
   });
 };
 
-const getPaginationInfo = (paginationLinks) => {
+const getPaginationInfo = (paginationLinks, baseUrl) => {
   let maxPage = null;
   paginationLinks.forEach((href) => {
     if (!href) return;
     try {
-      const url = new URL(href, BASE_URL);
+      const url = new URL(href, baseUrl);
       const pageParam = url.searchParams.get('page');
       const pageNumber = pageParam ? Number.parseInt(pageParam, 10) : null;
       if (Number.isFinite(pageNumber)) {
@@ -349,20 +433,29 @@ const getPaginationInfo = (paginationLinks) => {
   return maxPage;
 };
 
-const absoluteUrl = (href) => resolveUrl(href);
+const absoluteUrl = (href, baseUrl) => resolveUrl(href, baseUrl);
 
-const main = async () => {
-  await ensureDirs();
+const readHistoricalCount = async () => {
+  try {
+    const metadata = JSON.parse(
+      await fs.readFile(path.join(OUTPUT_DIR, 'metadata.json'), 'utf8')
+    );
+    if (Number.isFinite(metadata?.product_count)) {
+      return metadata.product_count;
+    }
+  } catch {
+    // ignore
+  }
+  try {
+    const data = JSON.parse(await fs.readFile(path.join(OUTPUT_DIR, 'data.json'), 'utf8'));
+    return Array.isArray(data) ? data.length : 0;
+  } catch {
+    return 0;
+  }
+};
 
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    userAgent: USER_AGENT,
-    locale: 'fr-CA',
-    viewport: { width: 1365, height: 768 },
-  });
-  const page = await context.newPage();
-  page.setDefaultTimeout(PAGE_TIMEOUT_MS);
-
+const scrapeQuery = async (query, page, context) => {
+  const baseUrl = buildSearchUrl(query);
   const allItems = [];
   let currentPage = 1;
   let maxPage = null;
@@ -370,9 +463,9 @@ const main = async () => {
 
   while (currentPage <= PAGE_MAX_LIMIT) {
     const pageUrl = (() => {
-      if (currentPage === 1) return BASE_URL;
-      if (nextHref) return absoluteUrl(nextHref) || BASE_URL;
-      const url = new URL(BASE_URL);
+      if (currentPage === 1) return baseUrl;
+      if (nextHref) return absoluteUrl(nextHref, baseUrl) || baseUrl;
+      const url = new URL(baseUrl);
       url.searchParams.set('page', String(currentPage));
       return url.toString();
     })();
@@ -384,8 +477,7 @@ const main = async () => {
       try {
         await page.goto(pageUrl, { waitUntil: 'networkidle' });
         await acceptCookies(page);
-        await waitForLoaders(page);
-        await waitForResults(page);
+        await waitForResultsWithRetry(page, `${context}-page-${currentPage}`);
         extracted = await scrapePage(page);
         if (extracted.results.length > 0 || attempt === PAGE_RETRY_COUNT) {
           break;
@@ -401,7 +493,7 @@ const main = async () => {
       const errorMessage = lastError ? lastError.message : 'Unknown error';
       const debugStamp = new Date().toISOString().replace(/[:.]/g, '-');
       await fs.writeFile(
-        path.join(DEBUG_DIR, `mayrand-onsale-page-${currentPage}-${debugStamp}.error.txt`),
+        path.join(DEBUG_DIR, `mayrand-onsale-${context}-page-${currentPage}-${debugStamp}.error.txt`),
         `Failed to scrape page ${currentPage}: ${errorMessage}\n`,
         'utf8'
       );
@@ -410,10 +502,16 @@ const main = async () => {
 
     if (extracted.results.length === 0) {
       const debugStamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const htmlPath = path.join(DEBUG_DIR, `mayrand-onsale-page-${currentPage}-${debugStamp}.html`);
+      const htmlPath = path.join(
+        DEBUG_DIR,
+        `mayrand-onsale-${context}-page-${currentPage}-${debugStamp}.html`
+      );
       await fs.writeFile(htmlPath, await page.content(), 'utf8');
       await page.screenshot({
-        path: path.join(DEBUG_DIR, `mayrand-onsale-page-${currentPage}-${debugStamp}.png`),
+        path: path.join(
+          DEBUG_DIR,
+          `mayrand-onsale-${context}-page-${currentPage}-${debugStamp}.png`
+        ),
         fullPage: true,
       });
       const emptyDebug = {
@@ -426,11 +524,14 @@ const main = async () => {
         visible_card_count: extracted.visibleCardCount,
       };
       await fs.writeFile(
-        path.join(DEBUG_DIR, `mayrand-onsale-page-${currentPage}-${debugStamp}.empty.json`),
+        path.join(
+          DEBUG_DIR,
+          `mayrand-onsale-${context}-page-${currentPage}-${debugStamp}.empty.json`
+        ),
         `${JSON.stringify(emptyDebug, null, 2)}\n`,
         'utf8'
       );
-      console.log(`Mayrand onsale page ${currentPage}: 0 items`, emptyDebug);
+      console.log(`Mayrand onsale ${context} page ${currentPage}: 0 items`, emptyDebug);
     }
 
     const pageCategory = extracted.breadcrumb || null;
@@ -441,11 +542,11 @@ const main = async () => {
         ...item.regularTexts,
       ]);
       const unitPrice = parseNumber(item.unitPrice);
-      const resolvedLink = resolveUrl(item.link);
-      const resolvedImage = resolveUrl(item.image);
+      const resolvedLink = resolveUrl(item.link, baseUrl);
+      const resolvedImage = resolveUrl(item.image, baseUrl);
       return {
         source: SOURCE,
-        query: QUERY,
+        query,
         name: item.name,
         brand: item.brand,
         sku: item.sku,
@@ -453,7 +554,7 @@ const main = async () => {
         price_regular: item.regularTexts.length > 0 ? regular : null,
         unit_label: item.unitLabel,
         unit_price: unitPrice,
-        url: resolvedLink || buildFallbackUrl(item.sku, item.name),
+        url: resolvedLink || buildFallbackUrl(item.sku, item.name, baseUrl),
         image: resolvedImage,
         category: item.category || pageCategory,
         scraped_at: new Date().toISOString(),
@@ -463,13 +564,13 @@ const main = async () => {
     allItems.push(...pageItems);
 
     if (maxPage === null) {
-      maxPage = getPaginationInfo(extracted.paginationLinks);
+      maxPage = getPaginationInfo(extracted.paginationLinks, baseUrl);
     }
 
     nextHref = extracted.nextHref;
 
     console.log(
-      `Mayrand onsale page ${currentPage}: ${pageItems.length} items (total ${allItems.length})`
+      `Mayrand onsale ${context} page ${currentPage}: ${pageItems.length} items (total ${allItems.length})`
     );
 
     if (maxPage !== null) {
@@ -483,10 +584,43 @@ const main = async () => {
     await sleep(jitter);
   }
 
+  return {
+    query,
+    baseUrl,
+    items: allItems,
+    pageCount: currentPage,
+  };
+};
+
+const main = async () => {
+  await ensureDirs();
+
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext({
+    userAgent: USER_AGENT,
+    locale: 'fr-CA',
+    viewport: { width: 1365, height: 768 },
+  });
+  const page = await context.newPage();
+  page.setDefaultTimeout(PAGE_TIMEOUT_MS);
+
+  let bestResult = null;
+  for (const query of FALLBACK_QUERIES) {
+    const context = `search-${query}`;
+    const result = await scrapeQuery(query, page, context);
+    if (!bestResult || result.items.length > bestResult.items.length) {
+      bestResult = result;
+    }
+    if (query === FALLBACK_QUERIES[0] && result.items.length > 0) {
+      break;
+    }
+  }
+
   await browser.close();
 
   const uniqueItems = new Map();
-  allItems.forEach((item) => {
+  const candidateItems = bestResult?.items ?? [];
+  candidateItems.forEach((item) => {
     const key = uniqueKeyForItem(item);
     if (!key) return;
     if (!uniqueItems.has(key)) {
@@ -496,13 +630,32 @@ const main = async () => {
 
   const finalItems = Array.from(uniqueItems.values());
 
+  const historicalCount = await readHistoricalCount();
+  if (finalItems.length === 0) {
+    if (historicalCount > 0) {
+      throw new Error(
+        `Mayrand onsale scrape returned 0 items; historical count ${historicalCount}. Aborting publish.`
+      );
+    }
+    await writeJson(path.join(OUTPUT_DIR, 'metadata.json'), {
+      timestamp: new Date().toISOString(),
+      product_count: finalItems.length,
+      page_count: bestResult?.pageCount ?? 0,
+      query: bestResult?.query ?? null,
+      source_url: bestResult?.baseUrl ?? null,
+    });
+    return;
+  }
+
   await writeJson(path.join(OUTPUT_DIR, 'data.json'), finalItems);
   await writeCsv(path.join(OUTPUT_DIR, 'data.csv'), finalItems);
 
   await writeJson(path.join(OUTPUT_DIR, 'metadata.json'), {
     timestamp: new Date().toISOString(),
     product_count: finalItems.length,
-    page_count: currentPage,
+    page_count: bestResult?.pageCount ?? 0,
+    query: bestResult?.query ?? null,
+    source_url: bestResult?.baseUrl ?? null,
   });
 };
 
