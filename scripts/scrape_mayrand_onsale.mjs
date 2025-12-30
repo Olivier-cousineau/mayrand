@@ -17,7 +17,6 @@ const RESULT_WAIT_INITIAL_DELAY_MS = 500;
 const RESULT_WAIT_MAX_DELAY_MS = 1500;
 const CONTAINER_SELECTOR = '#product-container';
 const CARD_SELECTOR = '#product-container .card-wrapper';
-const FALLBACK_QUERIES = ['onsale', 'solde', 'promo'];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -230,12 +229,6 @@ const waitForResultsWithRetry = async (page, contextLabel) => {
   return getResultsDomState(page);
 };
 
-const buildSearchUrl = (query) => {
-  const url = new URL(BASE_URL);
-  url.searchParams.set('search', query);
-  return url.toString();
-};
-
 const scrapePage = async (page) => {
   return page.evaluate(({ containerSelector, cardSelector }) => {
     const normalizeWhitespace = (value) =>
@@ -336,10 +329,15 @@ const scrapePage = async (page) => {
       )
     ).map((link) => link.getAttribute('href'));
 
-    const nextHref =
-      document.querySelector('a[rel="next"], .pagination-next a, .pager-next a')?.getAttribute(
-        'href'
-      ) || null;
+    const paginationButtons = Array.from(
+      document.querySelectorAll('button.pagination-btn[data-page]')
+    )
+      .map((button) => {
+        const pageValue = button.getAttribute('data-page');
+        const pageNumber = pageValue ? Number.parseInt(pageValue, 10) : null;
+        return Number.isFinite(pageNumber) ? pageNumber : null;
+      })
+      .filter((pageNumber) => pageNumber !== null);
 
     const emptyStateTextFromSelectors = normalizeWhitespace(
       Array.from(
@@ -369,7 +367,7 @@ const scrapePage = async (page) => {
     return {
       results,
       paginationLinks,
-      nextHref,
+      paginationButtons,
       breadcrumb,
       emptyStateText,
       resultsCountText,
@@ -397,7 +395,32 @@ const getPaginationInfo = (paginationLinks, baseUrl) => {
   return maxPage;
 };
 
-const absoluteUrl = (href, baseUrl) => resolveUrl(href, baseUrl);
+const getMaxPageFromButtons = (paginationButtons) => {
+  if (!paginationButtons || paginationButtons.length === 0) return null;
+  return paginationButtons.reduce((max, value) => (max === null ? value : Math.max(max, value)), null);
+};
+
+const goToPage = async (page, baseUrl, targetPage) => {
+  const buttonSelector = `button.pagination-btn[data-page="${targetPage}"]`;
+  const button = page.locator(buttonSelector).first();
+  if ((await button.count()) > 0) {
+    const isDisabled =
+      (await button.getAttribute('disabled')) !== null ||
+      (await button.getAttribute('aria-disabled')) === 'true';
+    if (!isDisabled) {
+      await Promise.allSettled([
+        page.waitForNavigation({ waitUntil: 'networkidle' }),
+        button.click({ timeout: 5000 }),
+      ]);
+      return page.url();
+    }
+  }
+
+  const url = new URL(baseUrl);
+  url.searchParams.set('page', String(targetPage));
+  await page.goto(url.toString(), { waitUntil: 'networkidle' });
+  return url.toString();
+};
 
 const readHistoricalCount = async () => {
   try {
@@ -418,17 +441,17 @@ const readHistoricalCount = async () => {
   }
 };
 
-const scrapeQuery = async (query, page, context) => {
-  const baseUrl = buildSearchUrl(query);
+const scrapeListing = async (page, context) => {
+  const baseUrl = BASE_URL;
   const allItems = [];
-  let currentPage = 1;
+  let currentPage = 0;
   let maxPage = null;
-  let nextHref = null;
+  let emptyPageStreak = 0;
+  let pageCount = 0;
 
   while (currentPage <= PAGE_MAX_LIMIT) {
     const pageUrl = (() => {
-      if (currentPage === 1) return baseUrl;
-      if (nextHref) return absoluteUrl(nextHref, baseUrl) || baseUrl;
+      if (currentPage === 0) return baseUrl;
       const url = new URL(baseUrl);
       url.searchParams.set('page', String(currentPage));
       return url.toString();
@@ -439,7 +462,11 @@ const scrapeQuery = async (query, page, context) => {
 
     for (let attempt = 0; attempt <= PAGE_RETRY_COUNT; attempt += 1) {
       try {
-        await page.goto(pageUrl, { waitUntil: 'networkidle' });
+        if (currentPage === 0) {
+          await page.goto(pageUrl, { waitUntil: 'networkidle' });
+        } else {
+          await goToPage(page, baseUrl, currentPage);
+        }
         await acceptCookies(page);
         try {
           await page.waitForFunction(
@@ -473,20 +500,22 @@ const scrapeQuery = async (query, page, context) => {
       break;
     }
 
-    if (extracted.results.length === 0) {
+    if (extracted.visibleCardCount === 0) {
       const debugStamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const htmlPath = path.join(
-        DEBUG_DIR,
-        `mayrand-onsale-${context}-page-${currentPage}-${debugStamp}.html`
-      );
-      await fs.writeFile(htmlPath, await page.content(), 'utf8');
-      await page.screenshot({
-        path: path.join(
+      if (currentPage === 0) {
+        const htmlPath = path.join(
           DEBUG_DIR,
-          `mayrand-onsale-${context}-page-${currentPage}-${debugStamp}.png`
-        ),
-        fullPage: true,
-      });
+          `mayrand-onsale-${context}-page-${currentPage}-${debugStamp}.html`
+        );
+        await fs.writeFile(htmlPath, await page.content(), 'utf8');
+        await page.screenshot({
+          path: path.join(
+            DEBUG_DIR,
+            `mayrand-onsale-${context}-page-${currentPage}-${debugStamp}.png`
+          ),
+          fullPage: true,
+        });
+      }
       const emptyDebug = {
         page: currentPage,
         url: pageUrl,
@@ -496,15 +525,20 @@ const scrapeQuery = async (query, page, context) => {
         container_selector: extracted.containerSelector,
         visible_card_count: extracted.visibleCardCount,
       };
-      await fs.writeFile(
-        path.join(
-          DEBUG_DIR,
-          `mayrand-onsale-${context}-page-${currentPage}-${debugStamp}.empty.json`
-        ),
-        `${JSON.stringify(emptyDebug, null, 2)}\n`,
-        'utf8'
-      );
+      if (currentPage === 0) {
+        await fs.writeFile(
+          path.join(
+            DEBUG_DIR,
+            `mayrand-onsale-${context}-page-${currentPage}-${debugStamp}.empty.json`
+          ),
+          `${JSON.stringify(emptyDebug, null, 2)}\n`,
+          'utf8'
+        );
+      }
       console.log(`Mayrand onsale ${context} page ${currentPage}: 0 items`, emptyDebug);
+      emptyPageStreak += 1;
+    } else {
+      emptyPageStreak = 0;
     }
 
     const pageCategory = extracted.breadcrumb || null;
@@ -519,7 +553,7 @@ const scrapeQuery = async (query, page, context) => {
       const resolvedImage = resolveUrl(item.image, baseUrl);
       return {
         source: SOURCE,
-        query,
+        query: null,
         name: item.name,
         brand: item.brand,
         sku: item.sku,
@@ -536,20 +570,33 @@ const scrapeQuery = async (query, page, context) => {
 
     allItems.push(...pageItems);
 
-    if (maxPage === null) {
-      maxPage = getPaginationInfo(extracted.paginationLinks, baseUrl);
-    }
+    pageCount += 1;
 
-    nextHref = extracted.nextHref;
+    if (maxPage === null) {
+      maxPage =
+        getMaxPageFromButtons(extracted.paginationButtons) ??
+        getPaginationInfo(extracted.paginationLinks, baseUrl);
+    }
 
     console.log(
       `Mayrand onsale ${context} page ${currentPage}: ${pageItems.length} items (total ${allItems.length})`
     );
 
-    if (maxPage !== null) {
-      if (currentPage >= maxPage) break;
-    } else if (!nextHref) {
+    if (emptyPageStreak >= 2) {
+      console.log(
+        `Mayrand onsale ${context} stopping after ${emptyPageStreak} empty pages in a row.`
+      );
       break;
+    }
+
+    if (maxPage !== null && currentPage >= maxPage) break;
+
+    if (maxPage === null) {
+      const hasNextButton =
+        extracted.paginationButtons?.some((pageNumber) => pageNumber > currentPage) ?? false;
+      if (!hasNextButton) {
+        break;
+      }
     }
 
     currentPage += 1;
@@ -558,10 +605,9 @@ const scrapeQuery = async (query, page, context) => {
   }
 
   return {
-    query,
     baseUrl,
     items: allItems,
-    pageCount: currentPage,
+    pageCount,
   };
 };
 
@@ -577,22 +623,13 @@ const main = async () => {
   const page = await context.newPage();
   page.setDefaultTimeout(PAGE_TIMEOUT_MS);
 
-  let bestResult = null;
-  for (const query of FALLBACK_QUERIES) {
-    const context = `search-${query}`;
-    const result = await scrapeQuery(query, page, context);
-    if (!bestResult || result.items.length > bestResult.items.length) {
-      bestResult = result;
-    }
-    if (query === FALLBACK_QUERIES[0] && result.items.length > 0) {
-      break;
-    }
-  }
+  const context = 'listing';
+  const result = await scrapeListing(page, context);
 
   await browser.close();
 
   const uniqueItems = new Map();
-  const candidateItems = bestResult?.items ?? [];
+  const candidateItems = result?.items ?? [];
   candidateItems.forEach((item) => {
     const key = uniqueKeyForItem(item);
     if (!key) return;
@@ -613,9 +650,9 @@ const main = async () => {
     await writeJson(path.join(OUTPUT_DIR, 'metadata.json'), {
       timestamp: new Date().toISOString(),
       product_count: finalItems.length,
-      page_count: bestResult?.pageCount ?? 0,
-      query: bestResult?.query ?? null,
-      source_url: bestResult?.baseUrl ?? null,
+      page_count: result?.pageCount ?? 0,
+      query: null,
+      source_url: result?.baseUrl ?? null,
     });
     return;
   }
@@ -626,9 +663,9 @@ const main = async () => {
   await writeJson(path.join(OUTPUT_DIR, 'metadata.json'), {
     timestamp: new Date().toISOString(),
     product_count: finalItems.length,
-    page_count: bestResult?.pageCount ?? 0,
-    query: bestResult?.query ?? null,
-    source_url: bestResult?.baseUrl ?? null,
+    page_count: result?.pageCount ?? 0,
+    query: null,
+    source_url: result?.baseUrl ?? null,
   });
 };
 
