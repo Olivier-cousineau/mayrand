@@ -15,6 +15,8 @@ const RESULTS_WAIT_TIMEOUT_MS = 20000;
 const RESULT_WAIT_ATTEMPTS = 10;
 const RESULT_WAIT_INITIAL_DELAY_MS = 500;
 const RESULT_WAIT_MAX_DELAY_MS = 1500;
+const CONTAINER_SELECTOR = '#product-container';
+const CARD_SELECTOR = '#product-container .card-wrapper';
 const FALLBACK_QUERIES = ['onsale', 'solde', 'promo'];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -132,7 +134,7 @@ const acceptCookies = async (page) => {
 };
 
 const getResultsDomState = async (page) =>
-  page.evaluate(() => {
+  page.evaluate(({ containerSelector, cardSelector }) => {
     const normalizeWhitespace = (value) =>
       value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
 
@@ -149,24 +151,7 @@ const getResultsDomState = async (page) =>
       );
     };
 
-    const containerSelectors = [
-      '.container-lg.dynamic-listing.search-results',
-      '.product-list',
-      '.product-listing',
-      '.search-results',
-      '.products',
-      '.product-grid',
-      '.listing',
-    ];
-    const cardSelectors = [
-      '[data-product-id]',
-      '[data-sku]',
-      '.product-tile',
-      '.product-item',
-      '.product',
-      '.product-container',
-      '.productBox',
-    ];
+    const cardSelectors = [cardSelector];
     const loaderSelectors = [
       '.loading',
       '.loader',
@@ -178,9 +163,7 @@ const getResultsDomState = async (page) =>
       '.skeleton-loader',
     ];
 
-    const container = containerSelectors
-      .map((selector) => document.querySelector(selector))
-      .find(Boolean);
+    const container = document.querySelector(containerSelector);
     const scope = container ?? document;
     const cards = scope.querySelectorAll(cardSelectors.join(','));
     const loaderVisible = loaderSelectors.some((selector) => {
@@ -220,7 +203,7 @@ const getResultsDomState = async (page) =>
       emptyStateText,
       containerSelector: container ? container.className || container.id : null,
     };
-  });
+  }, { containerSelector: CONTAINER_SELECTOR, cardSelector: CARD_SELECTOR });
 
 const waitForResultsWithRetry = async (page, contextLabel) => {
   const step =
@@ -254,7 +237,7 @@ const buildSearchUrl = (query) => {
 };
 
 const scrapePage = async (page) => {
-  return page.evaluate(() => {
+  return page.evaluate(({ containerSelector, cardSelector }) => {
     const normalizeWhitespace = (value) =>
       value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
 
@@ -271,33 +254,14 @@ const scrapePage = async (page) => {
       );
     };
 
-    const cardSelectors = [
-      '[data-product-id]',
-      '[data-sku]',
-      '.product-tile',
-      '.product-item',
-      '.product',
-      '.product-container',
-      '.productBox',
-    ];
+    const cardSelectors = [cardSelector];
     const cardSet = new Set();
     cardSelectors.forEach((selector) => {
       document.querySelectorAll(selector).forEach((element) => cardSet.add(element));
     });
     const cards = Array.from(cardSet).filter((element) => isVisible(element));
 
-    const containerSelectors = [
-      '.container-lg.dynamic-listing.search-results',
-      '.product-list',
-      '.product-listing',
-      '.search-results',
-      '.products',
-      '.product-grid',
-      '.listing',
-    ];
-    const resultsContainer = containerSelectors
-      .map((selector) => document.querySelector(selector))
-      .find(Boolean);
+    const resultsContainer = document.querySelector(containerSelector);
 
     const breadcrumb = normalizeWhitespace(
       Array.from(document.querySelectorAll('nav.breadcrumb, .breadcrumb, .breadcrumbs'))
@@ -412,7 +376,7 @@ const scrapePage = async (page) => {
       containerSelector: resultsContainer ? resultsContainer.className || resultsContainer.id : null,
       visibleCardCount: cards.length,
     };
-  });
+  }, { containerSelector: CONTAINER_SELECTOR, cardSelector: CARD_SELECTOR });
 };
 
 const getPaginationInfo = (paginationLinks, baseUrl) => {
@@ -477,6 +441,15 @@ const scrapeQuery = async (query, page, context) => {
       try {
         await page.goto(pageUrl, { waitUntil: 'networkidle' });
         await acceptCookies(page);
+        try {
+          await page.waitForFunction(
+            (selector) => document.querySelectorAll(selector).length > 0,
+            CARD_SELECTOR,
+            { timeout: RESULTS_WAIT_TIMEOUT_MS }
+          );
+        } catch {
+          // continue to fallback wait logic
+        }
         await waitForResultsWithRetry(page, `${context}-page-${currentPage}`);
         extracted = await scrapePage(page);
         if (extracted.results.length > 0 || attempt === PAGE_RETRY_COUNT) {
