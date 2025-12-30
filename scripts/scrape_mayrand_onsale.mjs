@@ -623,8 +623,8 @@ const main = async () => {
   const page = await context.newPage();
   page.setDefaultTimeout(PAGE_TIMEOUT_MS);
 
-  const context = 'listing';
-  const result = await scrapeListing(page, context);
+  const runContext = 'listing';
+  const result = await scrapeListing(page, runContext);
 
   await browser.close();
 
