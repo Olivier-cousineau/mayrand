@@ -61,7 +61,12 @@ const buildFallbackUrl = (sku, name, baseUrl) => {
   return `${baseUrl}#${encodeURIComponent(anchor.replace(/\s+/g, '-').slice(0, 80))}`;
 };
 
-const uniqueKeyForItem = (item) => item.sku || item.url || null;
+const buildFallbackKey = (item) => {
+  if (!item?.name) return null;
+  return `${item.name}__${item.price_sale}__${item.unit_label || ''}`;
+};
+
+const uniqueKeyForItem = (item) => item?.sku || item?.url || buildFallbackKey(item);
 
 const ensureDirs = async () => {
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
@@ -788,8 +793,21 @@ const scrapeListing = async (page, query) => {
       };
     });
 
+    const allCountBefore = allItems.length;
+    const keyStats = { withSku: 0, withUrl: 0, withFallbackKey: 0 };
     pageItems.forEach((item) => {
-      const key = uniqueKeyForItem(item);
+      let key = null;
+      if (item.sku) {
+        keyStats.withSku += 1;
+        key = item.sku;
+      } else if (item.url) {
+        keyStats.withUrl += 1;
+        key = item.url;
+      } else if (item.name) {
+        keyStats.withFallbackKey += 1;
+        key = buildFallbackKey(item);
+      }
+
       if (key) {
         if (!uniqueItems.has(key)) {
           uniqueItems.set(key, item);
@@ -799,6 +817,7 @@ const scrapeListing = async (page, query) => {
       }
       allItems.push(item);
     });
+    const allCountAfter = allItems.length;
 
     pageCount += 1;
 
@@ -810,7 +829,15 @@ const scrapeListing = async (page, query) => {
     }
 
     console.log(
-      `Mayrand onsale ${query} page ${currentPage}: ${pageItems.length} items (total ${allItems.length})`
+      `Mayrand onsale ${query} page ${currentPage}: extracted ${pageItems.length}, unique total ${allItems.length}`,
+      {
+        extractedCount: pageItems.length,
+        allCountBefore,
+        allCountAfter,
+        withSku: keyStats.withSku,
+        withUrl: keyStats.withUrl,
+        withFallbackKey: keyStats.withFallbackKey,
+      }
     );
 
     if (pageItems.length === 0) {
