@@ -528,46 +528,61 @@ const goToPage = async (page, baseUrl, targetPage) => {
       const previousState = await page.evaluate((cardsSelector) => {
         const normalizeWhitespace = (value) =>
           value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
-        const firstCard = document.querySelector(cardsSelector);
-        const firstText = normalizeWhitespace(firstCard?.innerText || firstCard?.textContent || '');
+        const cards = Array.from(document.querySelectorAll(cardsSelector)).slice(0, 3);
+        const cardsSignature = cards
+          .map((card) => normalizeWhitespace(card?.innerText || card?.textContent || ''))
+          .filter(Boolean)
+          .join(' | ');
         const activeButton =
           document.querySelector(
             'button.pagination-btn[aria-current="page"], button.pagination-btn.active, button.pagination-btn.is-active'
           ) || null;
         const activePage = activeButton?.getAttribute('data-page') || null;
-        return { firstText, activePage };
+        return { cardsSignature, activePage };
       }, CARDS_SELECTOR);
       await button.click({ timeout: 15000 });
       await page.waitForFunction(
-        ({ cardsSelector, beforeText, beforeActive, targetPageValue }) => {
-          const normalizeWhitespace = (value) =>
-            value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
-          const firstCard = document.querySelector(cardsSelector);
-          const firstText = normalizeWhitespace(
-            firstCard?.innerText || firstCard?.textContent || ''
-          );
+        ({ targetPageValue }) => {
           const activeButton =
             document.querySelector(
               'button.pagination-btn[aria-current="page"], button.pagination-btn.active, button.pagination-btn.is-active'
             ) || null;
           const activePage = activeButton?.getAttribute('data-page') || null;
-          const activeChanged =
-            activePage &&
-            activePage !== beforeActive &&
-            String(activePage) === String(targetPageValue);
-          const textChanged = firstText && firstText !== beforeText;
-          return Boolean(activeChanged || textChanged);
+          return Boolean(activePage && String(activePage) === String(targetPageValue));
         },
         {
           timeout: 15000,
         },
         {
-          cardsSelector: CARDS_SELECTOR,
-          beforeText: previousState.firstText,
-          beforeActive: previousState.activePage,
           targetPageValue: String(targetPage),
         }
       );
+      try {
+        await page.waitForFunction(
+          ({ cardsSelector, beforeSignature }) => {
+            if (!beforeSignature) return true;
+            const normalizeWhitespace = (value) =>
+              value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
+            const cards = Array.from(document.querySelectorAll(cardsSelector)).slice(0, 3);
+            const cardsSignature = cards
+              .map((card) => normalizeWhitespace(card?.innerText || card?.textContent || ''))
+              .filter(Boolean)
+              .join(' | ');
+            return Boolean(cardsSignature && cardsSignature !== beforeSignature);
+          },
+          {
+            timeout: 5000,
+          },
+          {
+            cardsSelector: CARDS_SELECTOR,
+            beforeSignature: previousState.cardsSignature,
+          }
+        );
+      } catch (error) {
+        if (error?.name !== 'TimeoutError') {
+          throw error;
+        }
+      }
       await page.waitForLoadState('domcontentloaded');
       await page.waitForTimeout(750);
       await page.waitForSelector(CARDS_SELECTOR, { timeout: 15000 });
