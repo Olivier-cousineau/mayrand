@@ -519,6 +519,25 @@ const getCardsSignature = async (page) =>
     return sig.join('|');
   });
 
+const getPagerText = async (page) =>
+  page.evaluate(() => {
+    const normalizeWhitespace = (value) =>
+      value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? '';
+    const pager = document.querySelector(
+      '.pagination, nav.pagination, .pager, .pagination__list, [aria-label*="pagination" i]'
+    );
+    return normalizeWhitespace(pager?.textContent || '');
+  });
+
+const countCards = async (page) => page.locator(CARDS_SELECTOR).count();
+
+const pagerShowsTarget = (pagerText, targetPage) => {
+  if (!pagerText) return false;
+  const normalized = pagerText.replace(/\s+/g, ' ').toLowerCase();
+  const target = String(targetPage);
+  return normalized.includes(` ${target} `) || normalized.endsWith(` ${target}`) || normalized.startsWith(`${target} `);
+};
+
 const goToPage = async (page, baseUrl, targetPage) => {
   const buttonSelector = `button.pagination-btn[data-page="${targetPage}"]`;
   const button = page.locator(buttonSelector).first();
@@ -527,11 +546,13 @@ const goToPage = async (page, baseUrl, targetPage) => {
       (await button.getAttribute('disabled')) !== null ||
       (await button.getAttribute('aria-disabled')) === 'true';
     if (!isDisabled) {
-      for (let attempt = 1; attempt <= 3; attempt += 1) {
+      for (let attempt = 1; attempt <= 5; attempt += 1) {
         await killOverlays(page);
 
         const beforeActive = await getActivePage(page);
+        const beforeCount = await countCards(page);
         const beforeSig = await getCardsSignature(page);
+        const beforePagerText = await getPagerText(page);
 
         await button.scrollIntoViewIfNeeded();
 
@@ -543,59 +564,31 @@ const goToPage = async (page, baseUrl, targetPage) => {
         }
 
         try {
-          await Promise.race([
-            page.waitForFunction(
-              (target) => {
-                const btns = Array.from(document.querySelectorAll('button.pagination-btn'));
-                const active =
-                  btns.find((b) => b.classList.contains('active')) ||
-                  btns.find((b) => b.getAttribute('aria-current') === 'page');
-                const raw = active?.getAttribute('data-page') || active?.textContent?.trim() || '';
-                const n = Number(String(raw).replace(/\D/g, ''));
-                return Number.isFinite(n) && n === Number(target);
-              },
-              targetPage,
-              { timeout: 20000 }
-            ),
-            page.waitForFunction(
-              (prevSig) => {
-                const cards = Array.from(document.querySelectorAll('.product-container *'))
-                  .filter(
-                    (el) =>
-                      el.tagName === 'A' ||
-                      (el.className || '').toString().toLowerCase().includes('product')
-                  )
-                  .slice(0, 15);
-                const sig = cards
-                  .map((el) => (el.getAttribute('href') || el.textContent || '').trim().slice(0, 80))
-                  .join('|');
-                return sig && sig !== prevSig;
-              },
-              beforeSig,
-              { timeout: 20000 }
-            ),
-            page.waitForFunction(
-              () => {
-                const n = document.querySelectorAll('.product-container .product-card, .product-container a')
-                  .length;
-                return n >= 40;
-              },
-              { timeout: 20000 }
-            ),
-          ]);
-
+          await page.waitForLoadState('networkidle', { timeout: 20000 });
+          await waitForResultsWithRetry(page, `pagination-${targetPage}-attempt-${attempt}`);
+          await waitForCardsStable(page);
           const afterActive = await getActivePage(page);
+          const afterCount = await countCards(page);
           const afterSig = await getCardsSignature(page);
+          const afterPagerText = await getPagerText(page);
+          const sigChanged = beforeActive !== afterActive || beforeCount !== afterCount;
 
           console.log('Pagination status', {
             attempt,
             target: targetPage,
             beforeActive,
             afterActive,
-            sigChanged: beforeSig !== afterSig,
+            beforePagerText,
+            afterPagerText,
+            sigChanged,
+            signatureDelta: beforeSig !== afterSig,
           });
 
-          return page.url();
+          if (afterActive === targetPage || pagerShowsTarget(afterPagerText, targetPage)) {
+            return page.url();
+          }
+
+          await page.waitForTimeout(500);
         } catch (error) {
           const afterActive = await getActivePage(page);
           console.log('Pagination attempt failed', {
@@ -615,7 +608,7 @@ const goToPage = async (page, baseUrl, targetPage) => {
       });
       const html = await page.content();
       await fs.writeFile(path.join(DEBUG_DIR, `mayrand-pagination-fail-${targetPage}.html`), html, 'utf8');
-      throw new Error(`Failed to navigate to page ${targetPage} after 3 attempts`);
+      return false;
     }
   }
 
@@ -631,8 +624,8 @@ const goToPage = async (page, baseUrl, targetPage) => {
 const goToNextPage = async (page, baseUrl, nextPage) => {
   if (!nextPage || nextPage.disabled) return false;
   if (Number.isFinite(nextPage.pageNumber)) {
-    await goToPage(page, baseUrl, nextPage.pageNumber);
-    return true;
+    const moved = await goToPage(page, baseUrl, nextPage.pageNumber);
+    return Boolean(moved);
   }
   if (nextPage.href) {
     const resolved = resolveUrl(nextPage.href, baseUrl);
