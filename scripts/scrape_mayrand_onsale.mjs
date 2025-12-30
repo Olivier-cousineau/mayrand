@@ -390,10 +390,41 @@ const scrapePage = async (page) => {
         .find(Boolean)
     );
 
+    const nextCandidates = Array.from(document.querySelectorAll('a, button')).filter((node) => {
+      const text = normalizeWhitespace(node.textContent || '');
+      const aria = normalizeWhitespace(node.getAttribute('aria-label') || '');
+      const rel = normalizeWhitespace(node.getAttribute('rel') || '');
+      const haystack = [text, aria, rel].filter(Boolean).join(' ').toLowerCase();
+      return (
+        haystack.includes('suivant') ||
+        haystack.includes('next') ||
+        haystack.includes('prochain') ||
+        haystack.includes('suivante') ||
+        rel.toLowerCase() === 'next'
+      );
+    });
+
+    const nextPageNode = nextCandidates.find((node) => isVisible(node)) || null;
+    const nextPageDisabled = nextPageNode
+      ? nextPageNode.hasAttribute('disabled') ||
+        nextPageNode.getAttribute('aria-disabled') === 'true' ||
+        nextPageNode.classList.contains('disabled') ||
+        nextPageNode.classList.contains('is-disabled')
+      : null;
+    const nextPageHref = nextPageNode?.getAttribute('href') || null;
+    const nextPageNumber = nextPageNode?.getAttribute('data-page');
+    const nextPageLabel = normalizeWhitespace(nextPageNode?.textContent || '');
+
     return {
       results,
       paginationLinks,
       paginationButtons,
+      nextPage: {
+        href: nextPageHref,
+        pageNumber: nextPageNumber ? Number.parseInt(nextPageNumber, 10) : null,
+        label: nextPageLabel,
+        disabled: nextPageDisabled,
+      },
       breadcrumb,
       emptyStateText,
       resultsCountText,
@@ -465,6 +496,25 @@ const goToPage = async (page, baseUrl, targetPage) => {
   return url.toString();
 };
 
+const goToNextPage = async (page, baseUrl, nextPage) => {
+  if (!nextPage || nextPage.disabled) return false;
+  if (Number.isFinite(nextPage.pageNumber)) {
+    await goToPage(page, baseUrl, nextPage.pageNumber);
+    return true;
+  }
+  if (nextPage.href) {
+    const resolved = resolveUrl(nextPage.href, baseUrl);
+    if (!resolved) return false;
+    if (resolved === page.url()) return false;
+    await page.goto(resolved, { waitUntil: 'domcontentloaded' });
+    await page.waitForTimeout(750);
+    await page.waitForSelector(CARDS_SELECTOR, { timeout: 15000 });
+    await waitForCardsStable(page);
+    return true;
+  }
+  return false;
+};
+
 const readHistoricalCount = async () => {
   try {
     const metadata = JSON.parse(
@@ -506,14 +556,10 @@ const scrapeListing = async (page, query) => {
   let emptyPageStreak = 0;
   let pageCount = 0;
   let stoppedReason = null;
+  let lastPageUrl = null;
 
   while (currentPage <= PAGE_MAX_LIMIT) {
-    const pageUrl = (() => {
-      if (currentPage === 1) return baseUrlString;
-      const url = new URL(baseUrlString);
-      url.searchParams.set('page', String(currentPage));
-      return url.toString();
-    })();
+    const pageUrl = currentPage === 1 ? baseUrlString : page.url() || baseUrlString;
 
     let extracted = null;
     let lastError = null;
@@ -522,8 +568,6 @@ const scrapeListing = async (page, query) => {
       try {
         if (currentPage === 1) {
           await page.goto(pageUrl, { waitUntil: 'domcontentloaded' });
-        } else {
-          await goToPage(page, baseUrlString, currentPage);
         }
         await acceptCookies(page);
         await page.waitForTimeout(750);
@@ -627,6 +671,16 @@ const scrapeListing = async (page, query) => {
       `Mayrand onsale ${query} page ${currentPage}: ${pageItems.length} items (total ${allItems.length})`
     );
 
+    if (pageItems.length === 0) {
+      const debugStamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const debugBase = `mayrand-onsale-${slugify(query)}-page-${currentPage}-extraction-0-${debugStamp}`;
+      await fs.writeFile(path.join(DEBUG_DIR, `${debugBase}.html`), await page.content(), 'utf8');
+      await page.screenshot({
+        path: path.join(DEBUG_DIR, `${debugBase}.png`),
+        fullPage: true,
+      });
+    }
+
     if (emptyPageStreak >= 2) {
       console.log(
         `Mayrand onsale ${query} stopping after ${emptyPageStreak} empty pages in a row.`
@@ -640,14 +694,27 @@ const scrapeListing = async (page, query) => {
       break;
     }
 
-    if (maxPage === null) {
-      const hasNextButton =
-        extracted.paginationButtons?.some((pageNumber) => pageNumber > currentPage) ?? false;
-      if (!hasNextButton) {
-        stoppedReason = 'no-next-button';
-        break;
-      }
+    const currentUrl = page.url();
+    let movedToNext = false;
+    if (extracted.nextPage && !extracted.nextPage.disabled) {
+      movedToNext = await goToNextPage(page, baseUrlString, extracted.nextPage);
     }
+    if (!movedToNext && maxPage !== null && currentPage < maxPage) {
+      await goToPage(page, baseUrlString, currentPage + 1);
+      movedToNext = true;
+    }
+
+    if (!movedToNext) {
+      stoppedReason = extracted.nextPage?.disabled ? 'next-disabled' : 'no-next-page';
+      break;
+    }
+
+    const nextUrl = page.url();
+    if (nextUrl === currentUrl || nextUrl === lastPageUrl) {
+      stoppedReason = 'pagination-stalled';
+      break;
+    }
+    lastPageUrl = nextUrl;
 
     currentPage += 1;
     const jitter = 500 + Math.floor(Math.random() * 700);
