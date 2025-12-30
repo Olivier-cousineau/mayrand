@@ -541,6 +541,7 @@ const pagerShowsTarget = (pagerText, targetPage) => {
 const goToPage = async (page, baseUrl, targetPage) => {
   const buttonSelector = `button.pagination-btn[data-page="${targetPage}"]`;
   const button = page.locator(buttonSelector).first();
+  const initialActive = await getActivePage(page);
   if ((await button.count()) > 0) {
     const isDisabled =
       (await button.getAttribute('disabled')) !== null ||
@@ -585,7 +586,11 @@ const goToPage = async (page, baseUrl, targetPage) => {
           });
 
           if (afterActive === targetPage || pagerShowsTarget(afterPagerText, targetPage)) {
-            return page.url();
+            return {
+              beforeActive,
+              afterActive,
+              sigChanged,
+            };
           }
 
           await page.waitForTimeout(500);
@@ -608,36 +613,46 @@ const goToPage = async (page, baseUrl, targetPage) => {
       });
       const html = await page.content();
       await fs.writeFile(path.join(DEBUG_DIR, `mayrand-pagination-fail-${targetPage}.html`), html, 'utf8');
-      return false;
+      return null;
     }
   }
 
   const url = new URL(baseUrl);
   url.searchParams.set('page', String(targetPage));
+  const beforeActive = initialActive ?? (await getActivePage(page));
   await page.goto(url.toString(), { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(750);
   await page.waitForSelector(CARDS_SELECTOR, { timeout: 15000 });
   await waitForCardsStable(page);
-  return url.toString();
+  const afterActive = await getActivePage(page);
+  return {
+    beforeActive,
+    afterActive,
+    sigChanged: beforeActive !== afterActive,
+  };
 };
 
 const goToNextPage = async (page, baseUrl, nextPage) => {
-  if (!nextPage || nextPage.disabled) return false;
+  if (!nextPage || nextPage.disabled) return null;
   if (Number.isFinite(nextPage.pageNumber)) {
     const moved = await goToPage(page, baseUrl, nextPage.pageNumber);
-    return Boolean(moved);
+    return moved;
   }
   if (nextPage.href) {
     const resolved = resolveUrl(nextPage.href, baseUrl);
-    if (!resolved) return false;
-    if (resolved === page.url()) return false;
+    if (!resolved) return null;
     await page.goto(resolved, { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(750);
     await page.waitForSelector(CARDS_SELECTOR, { timeout: 15000 });
     await waitForCardsStable(page);
-    return true;
+    const afterActive = await getActivePage(page);
+    return {
+      beforeActive: null,
+      afterActive,
+      sigChanged: false,
+    };
   }
-  return false;
+  return null;
 };
 
 const readHistoricalCount = async () => {
@@ -685,8 +700,6 @@ const scrapeListing = async (page, query) => {
   let emptyPageStreak = 0;
   let pageCount = 0;
   let stoppedReason = null;
-  let lastPageUrl = null;
-
   while (currentPage <= PAGE_MAX_LIMIT) {
     const pageUrl = currentPage === 1 ? baseUrlString : page.url() || baseUrlString;
 
@@ -856,29 +869,27 @@ const scrapeListing = async (page, query) => {
       break;
     }
 
-    const currentUrl = page.url();
-    let movedToNext = false;
+    const targetPage = currentPage + 1;
+    let paginationStatus = null;
     if (extracted.nextPage && !extracted.nextPage.disabled) {
-      movedToNext = await goToNextPage(page, baseUrlString, extracted.nextPage);
+      paginationStatus = await goToNextPage(page, baseUrlString, extracted.nextPage);
     }
-    if (!movedToNext && maxPage !== null && currentPage < maxPage) {
-      await goToPage(page, baseUrlString, currentPage + 1);
-      movedToNext = true;
+    if (!paginationStatus && maxPage !== null && currentPage < maxPage) {
+      paginationStatus = await goToPage(page, baseUrlString, targetPage);
     }
 
-    if (!movedToNext) {
+    if (!paginationStatus) {
       stoppedReason = extracted.nextPage?.disabled ? 'next-disabled' : 'no-next-page';
       break;
     }
 
-    const nextUrl = page.url();
-    if (nextUrl === currentUrl || nextUrl === lastPageUrl) {
-      stoppedReason = 'pagination-stalled';
+    if (paginationStatus.afterActive !== targetPage) {
+      console.log('No more pages, stopping at page', currentPage);
+      stoppedReason = 'no-next-page';
       break;
     }
-    lastPageUrl = nextUrl;
 
-    currentPage += 1;
+    currentPage = targetPage;
     const jitter = 500 + Math.floor(Math.random() * 700);
     await sleep(jitter);
   }
