@@ -42,7 +42,7 @@ const parseUnitPriceText = (value) => {
   if (!value) return { unitPrice: null, unitLabel: null };
   const normalized = value.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim();
   const match = normalized.match(
-    /(?:\$|€)?\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:\/|par)\s*([^\n]+)/i
+    /(?:\$|€)?\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:\$|€)?\s*(?:\/|par)\s*([^\n]+)/i
   );
   if (!match) return { unitPrice: null, unitLabel: null };
   return {
@@ -351,12 +351,12 @@ const scrapeProductPage = async (page, productUrl) => {
 
     const unitLabel = normalizeWhitespace(
       document.querySelector(
-        '.unit, .unit-label, .unit-text, .product-unit, .unitLabel, [data-testid="unit"]'
+        '.unit_quantity, .unit, .unit-label, .unit-text, .product-unit, .unitLabel, [data-testid="unit"]'
       )?.textContent
     );
     const unitPriceText = normalizeWhitespace(
       document.querySelector(
-        '.unit-price, .price-unit, .price-per, .unit-price-value, [data-testid="unit-price"]'
+        '.unit-price-ref, .unit-price, .price-unit, .price-per, .unit-price-value, [data-testid="unit-price"]'
       )?.textContent
     );
 
@@ -531,7 +531,7 @@ const scrapePage = async (page) => {
 
         const unitLabel = normalizeWhitespace(
           card.querySelector(
-            '.unit, .unit-label, .unit-text, .product-unit, .unitLabel, [data-testid="unit"]'
+            '.unit_quantity, .unit, .unit-label, .unit-text, .product-unit, .unitLabel, [data-testid="unit"]'
           )?.textContent
         );
 
@@ -1196,14 +1196,18 @@ const main = async () => {
   });
 };
 
-main().catch(async (error) => {
-  await ensureDirs();
-  const debugStamp = new Date().toISOString().replace(/[:.]/g, '-');
-  await fs.writeFile(
-    path.join(DEBUG_DIR, `mayrand-onsale-fatal-${debugStamp}.error.txt`),
-    error.stack || error.message,
-    'utf8'
-  );
-  console.error(error);
-  process.exitCode = 1;
-});
+export { normalizeWhitespace, parseNumber, parseUnitPriceText };
+
+if (import.meta.url === new URL(process.argv[1], 'file:').href) {
+  main().catch(async (error) => {
+    await ensureDirs();
+    const debugStamp = new Date().toISOString().replace(/[:.]/g, '-');
+    await fs.writeFile(
+      path.join(DEBUG_DIR, `mayrand-onsale-fatal-${debugStamp}.error.txt`),
+      error.stack || error.message,
+      'utf8'
+    );
+    console.error(error);
+    process.exitCode = 1;
+  });
+}
