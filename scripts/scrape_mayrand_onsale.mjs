@@ -15,6 +15,9 @@ const RESULTS_WAIT_TIMEOUT_MS = 20000;
 const RESULT_WAIT_ATTEMPTS = 10;
 const RESULT_WAIT_INITIAL_DELAY_MS = 500;
 const RESULT_WAIT_MAX_DELAY_MS = 1500;
+const DETAIL_CONCURRENCY_LIMIT = 4;
+const DETAIL_BASE_DELAY_MS = 350;
+const DETAIL_JITTER_MS = 450;
 const CONTAINER_SELECTOR = '#product-container';
 const CARDS_SELECTOR = 'div.product-card-wrapper';
 
@@ -33,6 +36,19 @@ const parseNumber = (value) => {
   if (!cleaned) return null;
   const parsed = Number.parseFloat(cleaned);
   return Number.isFinite(parsed) ? parsed : null;
+};
+
+const parseUnitPriceText = (value) => {
+  if (!value) return { unitPrice: null, unitLabel: null };
+  const normalized = value.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim();
+  const match = normalized.match(
+    /(?:\$|€)?\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:\/|par)\s*([^\n]+)/i
+  );
+  if (!match) return { unitPrice: null, unitLabel: null };
+  return {
+    unitPrice: parseNumber(match[1]),
+    unitLabel: normalizeWhitespace(match[2]),
+  };
 };
 
 const parsePriceCandidates = (values) => {
@@ -67,6 +83,12 @@ const buildFallbackKey = (item) => {
 };
 
 const uniqueKeyForItem = (item) => item?.sku || item?.url || buildFallbackKey(item);
+
+const extractSkuFromUrl = (url) => {
+  if (!url) return null;
+  const match = url.match(/-(\d{3,})(?:\D|$)/);
+  return match?.[1] || null;
+};
 
 const ensureDirs = async () => {
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
@@ -231,6 +253,208 @@ const waitForResultsWithRetry = async (page, contextLabel) => {
 
   await page.waitForTimeout(500);
   return getResultsDomState(page);
+};
+
+const scrapeProductPage = async (page, productUrl) => {
+  await page.goto(productUrl, { waitUntil: 'domcontentloaded' });
+  await acceptCookies(page);
+  await page.waitForTimeout(500);
+  return page.evaluate(() => {
+    const normalizeWhitespace = (value) =>
+      value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
+
+    const readJsonLd = () => {
+      const scripts = Array.from(
+        document.querySelectorAll('script[type="application/ld+json"]')
+      )
+        .map((node) => node.textContent)
+        .filter(Boolean);
+      const parsed = [];
+      for (const raw of scripts) {
+        try {
+          parsed.push(JSON.parse(raw));
+        } catch {
+          continue;
+        }
+      }
+      return parsed;
+    };
+
+    const flattenJsonLd = (data) => {
+      if (!data) return [];
+      if (Array.isArray(data)) return data.flatMap(flattenJsonLd);
+      if (typeof data === 'object') {
+        if (data['@graph']) return flattenJsonLd(data['@graph']);
+        return [data];
+      }
+      return [];
+    };
+
+    const jsonLdEntries = readJsonLd().flatMap(flattenJsonLd);
+    const productEntry = jsonLdEntries.find((entry) => {
+      const type = entry?.['@type'];
+      if (!type) return false;
+      if (Array.isArray(type)) {
+        return type.some((value) => String(value).toLowerCase() === 'product');
+      }
+      return String(type).toLowerCase() === 'product';
+    });
+
+    const productName = normalizeWhitespace(productEntry?.name);
+    const productBrand = normalizeWhitespace(
+      productEntry?.brand?.name || productEntry?.brand
+    );
+    const productSku = normalizeWhitespace(productEntry?.sku);
+
+    const offers = productEntry?.offers;
+    const offersList = Array.isArray(offers) ? offers : offers ? [offers] : [];
+    const offerPrices = offersList
+      .map((offer) => {
+        if (!offer) return null;
+        if (offer.price) return String(offer.price);
+        if (offer.lowPrice) return String(offer.lowPrice);
+        if (offer.priceSpecification?.price) return String(offer.priceSpecification.price);
+        return null;
+      })
+      .filter(Boolean);
+
+    const h1Text = normalizeWhitespace(document.querySelector('h1')?.textContent);
+    const ogTitle = normalizeWhitespace(
+      document.querySelector('meta[property="og:title"], meta[name="og:title"]')?.getAttribute(
+        'content'
+      )
+    );
+
+    const breadcrumb = normalizeWhitespace(
+      Array.from(document.querySelectorAll('nav.breadcrumb, .breadcrumb, .breadcrumbs'))
+        .map((node) => node.textContent)
+        .find(Boolean)
+    );
+
+    const priceSaleText = normalizeWhitespace(
+      document.querySelector(
+        '.price--sale, .price-sale, .sale-price, .special-price, .price-promo, .promo-price'
+      )?.textContent
+    );
+    const priceRegularText = normalizeWhitespace(
+      document.querySelector('del, s, .price--regular, .regular-price, .old-price')
+        ?.textContent
+    );
+
+    const priceCandidates = Array.from(
+      document.querySelectorAll(
+        '.product-price, .price, .price-value, .value, .pricing, .product-card-price'
+      )
+    )
+      .map((node) => node.textContent)
+      .filter(Boolean);
+
+    const unitLabel = normalizeWhitespace(
+      document.querySelector(
+        '.unit, .unit-label, .unit-text, .product-unit, .unitLabel, [data-testid="unit"]'
+      )?.textContent
+    );
+    const unitPriceText = normalizeWhitespace(
+      document.querySelector(
+        '.unit-price, .price-unit, .price-per, .unit-price-value, [data-testid="unit-price"]'
+      )?.textContent
+    );
+
+    return {
+      productName,
+      productBrand,
+      productSku,
+      offerPrices,
+      h1Text,
+      ogTitle,
+      breadcrumb,
+      priceSaleText,
+      priceRegularText,
+      priceCandidates,
+      unitLabel,
+      unitPriceText,
+    };
+  });
+};
+
+const enrichItemsWithDetails = async (context, items) => {
+  const results = new Array(items.length);
+  let index = 0;
+
+  const worker = async () => {
+    while (index < items.length) {
+      const current = index;
+      index += 1;
+      const item = items[current];
+      if (!item?.url) {
+        results[current] = item;
+        continue;
+      }
+      await sleep(DETAIL_BASE_DELAY_MS + Math.random() * DETAIL_JITTER_MS);
+      const page = await context.newPage();
+      page.setDefaultTimeout(PAGE_TIMEOUT_MS);
+      try {
+        const details = await scrapeProductPage(page, item.url);
+        const parsedSale = parseNumber(details.priceSaleText);
+        const parsedRegular = parseNumber(details.priceRegularText);
+        const offerPrices = details.offerPrices.map((entry) => parseNumber(entry)).filter(Boolean);
+        const offerSale = offerPrices.length > 0 ? Math.min(...offerPrices) : null;
+        const offerRegular = offerPrices.length > 1 ? Math.max(...offerPrices) : null;
+        const priceCandidates =
+          parsedSale !== null || parsedRegular !== null
+            ? { sale: parsedSale, regular: parsedRegular }
+            : parsePriceCandidates(details.priceCandidates);
+        const combinedPriceSale = parsedSale ?? offerSale ?? priceCandidates.sale ?? null;
+        const combinedPriceRegular =
+          parsedRegular ?? offerRegular ?? priceCandidates.regular ?? null;
+
+        const unitPriceParsed = parseUnitPriceText(details.unitPriceText);
+        const nameFallback =
+          details.h1Text ||
+          details.ogTitle ||
+          details.productName ||
+          item.name ||
+          item.sku ||
+          item.url ||
+          'Produit Mayrand';
+
+        results[current] = {
+          ...item,
+          name: nameFallback,
+          brand: details.productBrand || item.brand || null,
+          sku:
+            details.productSku ||
+            item.sku ||
+            extractSkuFromUrl(item.url) ||
+            null,
+          price_sale: combinedPriceSale ?? item.price_sale ?? null,
+          price_regular: combinedPriceRegular ?? item.price_regular ?? null,
+          unit_label:
+            details.unitLabel ||
+            unitPriceParsed.unitLabel ||
+            item.unit_label ||
+            null,
+          unit_price: unitPriceParsed.unitPrice ?? item.unit_price ?? null,
+          category: details.breadcrumb || item.category || null,
+        };
+      } catch (error) {
+        results[current] = {
+          ...item,
+          name: item.name || item.sku || item.url || 'Produit Mayrand',
+        };
+        console.log('Mayrand onsale product scrape failed', {
+          url: item.url,
+          error: error?.message,
+        });
+      } finally {
+        await page.close();
+      }
+    }
+  };
+
+  const workers = Array.from({ length: DETAIL_CONCURRENCY_LIMIT }, () => worker());
+  await Promise.all(workers);
+  return results;
 };
 
 const scrapePage = async (page) => {
@@ -934,8 +1158,6 @@ const main = async () => {
     }
   }
 
-  await browser.close();
-
   const uniqueItems = new Map();
   const finalItems = [];
   const candidateItems = result?.items ?? [];
@@ -948,8 +1170,11 @@ const main = async () => {
     finalItems.push(item);
   });
 
+  const enrichedItems = await enrichItemsWithDetails(browserContext, finalItems);
+  await browser.close();
+
   const historicalCount = await readHistoricalCount();
-  if (finalItems.length === 0) {
+  if (enrichedItems.length === 0) {
     if (historicalCount > 0) {
       throw new Error(
         `Mayrand onsale scrape returned 0 items; historical count ${historicalCount}. Aborting publish.`
@@ -957,17 +1182,17 @@ const main = async () => {
     }
     await writeJson(path.join(OUTPUT_DIR, 'metadata.json'), {
       pagesScraped: result?.pageCount ?? 0,
-      totalItems: finalItems.length,
+      totalItems: enrichedItems.length,
     });
     return;
   }
 
-  await writeJson(path.join(OUTPUT_DIR, 'data.json'), finalItems);
-  await writeCsv(path.join(OUTPUT_DIR, 'data.csv'), finalItems);
+  await writeJson(path.join(OUTPUT_DIR, 'data.json'), enrichedItems);
+  await writeCsv(path.join(OUTPUT_DIR, 'data.csv'), enrichedItems);
 
   await writeJson(path.join(OUTPUT_DIR, 'metadata.json'), {
     pagesScraped: result?.pageCount ?? 0,
-    totalItems: finalItems.length,
+    totalItems: enrichedItems.length,
   });
 };
 
