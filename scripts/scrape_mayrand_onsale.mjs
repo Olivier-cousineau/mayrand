@@ -62,6 +62,16 @@ const parsePriceCandidates = (values) => {
   return { sale, regular };
 };
 
+const normalizePricePair = ({ sale, regular }) => {
+  if (regular === null && sale !== null) {
+    return { sale: null, regular: sale };
+  }
+  if (sale !== null && regular !== null && sale === regular) {
+    return { sale: null, regular };
+  }
+  return { sale, regular };
+};
+
 const resolveUrl = (maybeUrl, baseUrl = BASE_URL) => {
   if (!maybeUrl) return null;
   try {
@@ -331,15 +341,25 @@ const scrapeProductPage = async (page, productUrl) => {
         .find(Boolean)
     );
 
-    const priceSaleText = normalizeWhitespace(
-      document.querySelector(
-        '.price--sale, .price-sale, .sale-price, .special-price, .price-promo, .promo-price'
-      )?.textContent
+    const unitPriceSaleText = normalizeWhitespace(
+      document.querySelector('.unit_price span.me-2')?.textContent
     );
-    const priceRegularText = normalizeWhitespace(
-      document.querySelector('del, s, .price--regular, .regular-price, .old-price')
-        ?.textContent
+    const unitPriceRegularText = normalizeWhitespace(
+      document.querySelector('.unit_price del.price-discount')?.textContent
     );
+    const priceSaleText =
+      unitPriceSaleText ||
+      normalizeWhitespace(
+        document.querySelector(
+          '.price--sale, .price-sale, .sale-price, .special-price, .price-promo, .promo-price'
+        )?.textContent
+      );
+    const priceRegularText =
+      unitPriceRegularText ||
+      normalizeWhitespace(
+        document.querySelector('del, s, .price--regular, .regular-price, .old-price')
+          ?.textContent
+      );
 
     const priceCandidates = Array.from(
       document.querySelectorAll(
@@ -407,6 +427,10 @@ const enrichItemsWithDetails = async (context, items) => {
         const combinedPriceSale = parsedSale ?? offerSale ?? priceCandidates.sale ?? null;
         const combinedPriceRegular =
           parsedRegular ?? offerRegular ?? priceCandidates.regular ?? null;
+        const normalizedPrices = normalizePricePair({
+          sale: combinedPriceSale,
+          regular: combinedPriceRegular,
+        });
 
         const unitPriceParsed = parseUnitPriceText(details.unitPriceText);
         const nameFallback =
@@ -427,8 +451,8 @@ const enrichItemsWithDetails = async (context, items) => {
             item.sku ||
             extractSkuFromUrl(item.url) ||
             null,
-          price_sale: combinedPriceSale ?? item.price_sale ?? null,
-          price_regular: combinedPriceRegular ?? item.price_regular ?? null,
+          price_sale: normalizedPrices.sale ?? item.price_sale ?? null,
+          price_regular: normalizedPrices.regular ?? item.price_regular ?? null,
           unit_label:
             details.unitLabel ||
             unitPriceParsed.unitLabel ||
@@ -511,15 +535,25 @@ const scrapePage = async (page) => {
         const skuFallback = text?.match(/\b([0-9]{3,})\b/);
         const sku = skuAttribute || skuNode || skuMatch?.[1] || skuFallback?.[1] || null;
 
-        const priceSaleText = normalizeWhitespace(
-          card.querySelector(
-            '.price--sale, .price-sale, .sale-price, .special-price, .price-promo, .promo-price'
-          )?.textContent
+        const unitPriceSaleText = normalizeWhitespace(
+          card.querySelector('.unit_price span.me-2')?.textContent
         );
-        const priceRegularText = normalizeWhitespace(
-          card.querySelector('del, s, .price--regular, .regular-price, .old-price')
-            ?.textContent
+        const unitPriceRegularText = normalizeWhitespace(
+          card.querySelector('.unit_price del.price-discount')?.textContent
         );
+        const priceSaleText =
+          unitPriceSaleText ||
+          normalizeWhitespace(
+            card.querySelector(
+              '.price--sale, .price-sale, .sale-price, .special-price, .price-promo, .promo-price'
+            )?.textContent
+          );
+        const priceRegularText =
+          unitPriceRegularText ||
+          normalizeWhitespace(
+            card.querySelector('del, s, .price--regular, .regular-price, .old-price')
+              ?.textContent
+          );
 
         const priceCandidates = Array.from(
           card.querySelectorAll(
@@ -1004,6 +1038,7 @@ const scrapeListing = async (page, query) => {
         parsedSale !== null || parsedRegular !== null
           ? { sale: parsedSale, regular: parsedRegular }
           : parsePriceCandidates(item.priceCandidates);
+      const normalizedPrices = normalizePricePair({ sale, regular });
       const resolvedLink = resolveUrl(item.link, baseUrlString);
       const resolvedImage = resolveUrl(item.image, baseUrlString);
       return {
@@ -1012,8 +1047,8 @@ const scrapeListing = async (page, query) => {
         name: item.name,
         brand: item.brand,
         sku: item.sku,
-        price_sale: sale,
-        price_regular: parsedRegular !== null ? parsedRegular : regular,
+        price_sale: normalizedPrices.sale,
+        price_regular: normalizedPrices.regular,
         unit_label: item.unitLabel,
         unit_price: null,
         url: resolvedLink || buildFallbackUrl(item.sku, item.name, baseUrlString),
