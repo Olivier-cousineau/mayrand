@@ -20,6 +20,11 @@ const DETAIL_BASE_DELAY_MS = 350;
 const DETAIL_JITTER_MS = 450;
 const CONTAINER_SELECTOR = '#product-container';
 const CARDS_SELECTOR = 'div.product-card-wrapper';
+const FALLBACK_CARD_SELECTORS = [
+  '#product-container a[href*="/fr/nos-produits/"]',
+  'a[href*="/fr/nos-produits/"]',
+];
+const CAPTCHA_KEYWORDS = ['captcha', 'verify', 'access denied', 'robot', 'cloudflare'];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -482,7 +487,7 @@ const enrichItemsWithDetails = async (context, items) => {
 };
 
 const scrapePage = async (page) => {
-  return page.evaluate(({ containerSelector, cardsSelector }) => {
+  return page.evaluate(({ containerSelector, cardsSelector, fallbackSelectors }) => {
     const normalizeWhitespace = (value) =>
       value?.replace(/\s+/g, ' ').replace(/\u00a0/g, ' ').trim() ?? null;
 
@@ -499,7 +504,7 @@ const scrapePage = async (page) => {
       );
     };
 
-    const cardSelectors = [cardsSelector];
+    const cardSelectors = [cardsSelector, ...fallbackSelectors];
     const cardSet = new Set();
     cardSelectors.forEach((selector) => {
       document.querySelectorAll(selector).forEach((element) => cardSet.add(element));
@@ -516,68 +521,77 @@ const scrapePage = async (page) => {
 
     const results = cards.map((card) => {
       try {
-        const text = normalizeWhitespace(card.innerText || card.textContent || '');
-        const linkElement = card.querySelector('a[href]');
+        const cardRoot =
+          card.closest?.(cardsSelector) ||
+          card.closest?.('[data-product-id]') ||
+          card.closest?.('[class*="product"]') ||
+          card;
+        const text = normalizeWhitespace(
+          cardRoot?.innerText || cardRoot?.textContent || card.innerText || card.textContent || ''
+        );
+        const linkElement = card.matches('a[href]') ? card : cardRoot?.querySelector('a[href]');
         const name = normalizeWhitespace(linkElement?.textContent);
-        const link = linkElement?.getAttribute('href') || null;
+        const link = linkElement?.getAttribute('href') || cardRoot?.getAttribute('href') || null;
 
         const brand = normalizeWhitespace(
-          card.querySelector('.product-brand, .brand, .manufacturer')?.textContent
+          cardRoot?.querySelector('.product-brand, .brand, .manufacturer')?.textContent
         );
 
         const skuAttribute =
+          normalizeWhitespace(cardRoot?.getAttribute('data-sku')) ||
+          normalizeWhitespace(cardRoot?.getAttribute('data-product-id')) ||
           normalizeWhitespace(card.getAttribute('data-sku')) ||
           normalizeWhitespace(card.getAttribute('data-product-id'));
         const skuNode = normalizeWhitespace(
-          card.querySelector('.sku, .product-sku, .code, .product-code')?.textContent
+          cardRoot?.querySelector('.sku, .product-sku, .code, .product-code')?.textContent
         );
         const skuMatch = text?.match(/(?:code|sku|produit|item|article)\s*:?\s*([0-9]{3,})/i);
         const skuFallback = text?.match(/\b([0-9]{3,})\b/);
         const sku = skuAttribute || skuNode || skuMatch?.[1] || skuFallback?.[1] || null;
 
         const unitPriceSaleText = normalizeWhitespace(
-          card.querySelector('.unit_price span.me-2')?.textContent
+          cardRoot?.querySelector('.unit_price span.me-2')?.textContent
         );
         const unitPriceRegularText = normalizeWhitespace(
-          card.querySelector('.unit_price del.price-discount')?.textContent
+          cardRoot?.querySelector('.unit_price del.price-discount')?.textContent
         );
         const priceSaleText =
           unitPriceSaleText ||
           normalizeWhitespace(
-            card.querySelector(
+            cardRoot?.querySelector(
               '.price--sale, .price-sale, .sale-price, .special-price, .price-promo, .promo-price'
             )?.textContent
           );
         const priceRegularText =
           unitPriceRegularText ||
           normalizeWhitespace(
-            card.querySelector('del, s, .price--regular, .regular-price, .old-price')
+            cardRoot?.querySelector('del, s, .price--regular, .regular-price, .old-price')
               ?.textContent
           );
 
         const priceCandidates = Array.from(
-          card.querySelectorAll(
+          cardRoot?.querySelectorAll(
             '.product-price, .price, .price-value, .value, .pricing, .product-card-price'
-          )
+          ) || []
         )
           .map((node) => node.textContent)
           .filter(Boolean);
 
         const unitLabel = normalizeWhitespace(
-          card.querySelector(
+          cardRoot?.querySelector(
             '.unit_quantity, .unit, .unit-label, .unit-text, .product-unit, .unitLabel, [data-testid="unit"]'
           )?.textContent
         );
 
         const image =
-          card.querySelector('img')?.getAttribute('src') ||
-          card.querySelector('img')?.getAttribute('data-src') ||
-          card.querySelector('img')?.getAttribute('data-lazy') ||
+          cardRoot?.querySelector('img')?.getAttribute('src') ||
+          cardRoot?.querySelector('img')?.getAttribute('data-src') ||
+          cardRoot?.querySelector('img')?.getAttribute('data-lazy') ||
           null;
 
         const category =
-          normalizeWhitespace(card.getAttribute('data-category')) ||
-          normalizeWhitespace(card.querySelector('.category, .product-category')?.textContent) ||
+          normalizeWhitespace(cardRoot?.getAttribute('data-category')) ||
+          normalizeWhitespace(cardRoot?.querySelector('.category, .product-category')?.textContent) ||
           null;
 
         return {
@@ -693,7 +707,11 @@ const scrapePage = async (page) => {
       containerSelector: resultsContainer ? resultsContainer.className || resultsContainer.id : null,
       visibleCardCount: cards.length,
     };
-  }, { containerSelector: CONTAINER_SELECTOR, cardsSelector: CARDS_SELECTOR });
+  }, {
+    containerSelector: CONTAINER_SELECTOR,
+    cardsSelector: CARDS_SELECTOR,
+    fallbackSelectors: FALLBACK_CARD_SELECTORS,
+  });
 };
 
 const getPaginationInfo = (paginationLinks, baseUrl) => {
@@ -730,6 +748,106 @@ const waitForCardsStable = async (page) => {
     await page.waitForTimeout(250);
   }
   return lastCount;
+};
+
+const getListingCardCount = async (page) =>
+  page.evaluate(
+    ({ cardsSelector, fallbackSelectors }) => {
+      const isVisible = (element) => {
+        if (!element) return false;
+        const style = window.getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return (
+          rect.width > 0 &&
+          rect.height > 0 &&
+          style.visibility !== 'hidden' &&
+          style.display !== 'none' &&
+          Number.parseFloat(style.opacity || '1') > 0
+        );
+      };
+      const cardSet = new Set();
+      [cardsSelector, ...fallbackSelectors].forEach((selector) => {
+        document.querySelectorAll(selector).forEach((element) => cardSet.add(element));
+      });
+      return Array.from(cardSet).filter((element) => isVisible(element)).length;
+    },
+    { cardsSelector: CARDS_SELECTOR, fallbackSelectors: FALLBACK_CARD_SELECTORS }
+  );
+
+const scrollForLazyLoad = async (page) => {
+  const initialCount = await getListingCardCount(page);
+  await page.evaluate(async () => {
+    await new Promise((resolve) => {
+      let total = 0;
+      const distance = Math.max(window.innerHeight * 0.8, 300);
+      const timer = window.setInterval(() => {
+        window.scrollBy(0, distance);
+        total += distance;
+        if (total >= document.body.scrollHeight) {
+          window.clearInterval(timer);
+          resolve(null);
+        }
+      }, 200);
+    });
+  });
+  await page.waitForTimeout(500);
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+  await page.waitForTimeout(400);
+  const finalCount = await getListingCardCount(page);
+  return { initialCount, finalCount };
+};
+
+const getCaptchaStatus = async (page, html = null) => {
+  const content = html || (await page.content());
+  const lower = content.toLowerCase();
+  const hits = CAPTCHA_KEYWORDS.filter((keyword) => lower.includes(keyword));
+  return {
+    detected: hits.length > 0,
+    keywords: hits,
+  };
+};
+
+const saveZeroItemsDebug = async (page, query, currentPage, extracted) => {
+  const debugStamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const debugBase = `mayrand_zero_items-${slugify(query)}-page-${currentPage}-${debugStamp}`;
+  const html = await page.content();
+  const pageUrl = page.url();
+  const pageTitle = await page.title();
+  const captchaStatus = await getCaptchaStatus(page, html);
+
+  await fs.writeFile(path.join(DEBUG_DIR, `${debugBase}.html`), html, 'utf8');
+  await page.screenshot({
+    path: path.join(DEBUG_DIR, `${debugBase}.png`),
+    fullPage: true,
+  });
+  await fs.writeFile(
+    path.join(DEBUG_DIR, `${debugBase}.json`),
+    `${JSON.stringify(
+      {
+        query,
+        page: currentPage,
+        url: pageUrl,
+        title: pageTitle,
+        captcha: captchaStatus,
+        empty_state_text: extracted?.emptyStateText ?? null,
+        results_count_text: extracted?.resultsCountText ?? null,
+        container_selector: extracted?.containerSelector ?? null,
+        visible_card_count: extracted?.visibleCardCount ?? null,
+        cards_selector: CARDS_SELECTOR,
+        fallback_selectors: FALLBACK_CARD_SELECTORS,
+      },
+      null,
+      2
+    )}\n`,
+    'utf8'
+  );
+  console.log('Mayrand onsale 0 items debug', {
+    query,
+    page: currentPage,
+    url: pageUrl,
+    title: pageTitle,
+    captcha: captchaStatus,
+  });
 };
 
 const killOverlays = async (page) => {
@@ -978,6 +1096,7 @@ const scrapeListing = async (page, query) => {
         }
         await waitForCardsStable(page);
         await waitForResultsWithRetry(page, `${query}-page-${currentPage}`);
+        await scrollForLazyLoad(page);
         extracted = await scrapePage(page);
         if (extracted.results.length > 0 || attempt === PAGE_RETRY_COUNT) {
           break;
@@ -998,6 +1117,10 @@ const scrapeListing = async (page, query) => {
         'utf8'
       );
       break;
+    }
+
+    if (extracted.results.length === 0) {
+      await saveZeroItemsDebug(page, query, currentPage, extracted);
     }
 
     if (extracted.visibleCardCount === 0) {
