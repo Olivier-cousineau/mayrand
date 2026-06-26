@@ -12,7 +12,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/poisson-et-viande-en-conserve/poisson-en-conserve/thon-pale-entier-dans-lhuile-vegetale-valli-00253",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/00253/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.838Z"
+    "scraped_at": "2026-06-26T04:45:36.743Z"
   },
   {
     "source": "mayrand",
@@ -27,7 +27,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiture-et-tartinade/beurre-darachide/beurre-darachide-cremeux-kraft-00823",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/00823/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.838Z"
+    "scraped_at": "2026-06-26T04:45:36.743Z"
   },
   {
     "source": "mayrand",
@@ -42,7 +42,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/charcuterie/bacon-et-pancetta/bacon-regulier-prince-00972",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/00972/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.838Z"
+    "scraped_at": "2026-06-26T04:45:36.743Z"
   },
   {
     "source": "mayrand",
@@ -57,7 +57,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/poisson-et-viande-en-conserve/poisson-en-conserve/thon-pale-entier-unico-01062",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/01062/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.838Z"
+    "scraped_at": "2026-06-26T04:45:36.743Z"
   },
   {
     "source": "mayrand",
@@ -72,7 +72,22 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiserie/bonbon/bonbon-gelatine-gummi-party-01128",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/01128%20Bonbon%20g%C3%A9latine%20Gummi%20Party%20Brands.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.838Z"
+    "scraped_at": "2026-06-26T04:45:36.743Z"
+  },
+  {
+    "source": "mayrand",
+    "query": "onsale",
+    "name": "Pains hamburger blanc 12 un",
+    "brand": "Pom",
+    "sku": "01658",
+    "price_sale": 3.99,
+    "price_regular": 4.49,
+    "unit_label": "unité (1x732g)",
+    "unit_price": null,
+    "url": "https://mayrand.ca/fr/nos-produits/boulangerie/petit-pain/pains-hamburger-blanc-pom-01658",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/01658/image-1.png",
+    "category": null,
+    "scraped_at": "2026-06-26T04:45:36.743Z"
   },
   {
     "source": "mayrand",
@@ -87,7 +102,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-rape/fromage-mozzarella-stella-rape-17-saputo-01748",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/01748/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.838Z"
+    "scraped_at": "2026-06-26T04:45:36.743Z"
   },
   {
     "source": "mayrand",
@@ -102,7 +117,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/eau/eau-petillante/eau-naturelle-gazeifiee-vitre-01981",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.838Z"
+    "scraped_at": "2026-06-26T04:45:36.743Z"
   },
   {
     "source": "mayrand",
@@ -117,7 +132,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boulangerie/gateau/gateau-aux-fruits-pate-foncee-avec-pacanes-02111",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.743Z"
   },
   {
     "source": "mayrand",
@@ -132,22 +147,22 @@
     "url": "https://mayrand.ca/fr/nos-produits/charcuterie/jambon/jambon-cuit-a-lancienne-paysan-02521",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/02521/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.743Z"
   },
   {
     "source": "mayrand",
     "query": "onsale",
-    "name": "Pain ménage blé 675 g",
+    "name": "Pain ménage blanc 675 g",
     "brand": "Pom",
-    "sku": "02681",
+    "sku": "02680",
     "price_sale": 3.99,
     "price_regular": 4.49,
     "unit_label": "unité (1x675G)",
     "unit_price": null,
-    "url": "https://mayrand.ca/fr/nos-produits/boulangerie/pain-tranche/pain-tranche/pain-menage-ble-pom-02681",
-    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/02681/image-1.jpg",
+    "url": "https://mayrand.ca/fr/nos-produits/boulangerie/pain-tranche/pain-tranche/pain-menage-blanc-pom-02680",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/02680/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -162,7 +177,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/fruits/kiwi/kiwi-dore-03279",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -177,7 +192,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/fruits/fruits-exotiques/rhubarbe-03416",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/Fruits%20et%20L%C3%A9gumes/03416%20Rhubarbe.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -192,7 +207,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/marinade/olive/olives-noires-tranchees-284-l-03571",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/03571%20olives%20noires%20tranch%C3%A9es%206x2.84lt%20VALLI%20(2).jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -207,7 +222,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/feta/fromage-feta-03592",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -222,7 +237,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/laitue/epinard-jeune-03634",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/Fruits%20et%20L%C3%A9gumes/03634%20Jeune%20%C3%A9pinard.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -237,7 +252,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/fruits/kiwi/kiwi-03635",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/03635/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -252,7 +267,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/fruits/fraise/fraise-04028",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/04028/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -267,7 +282,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/fruits/cerise/cerise-rouge-04045",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/04045/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -282,7 +297,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/brocoli/brocoli-x2-04060",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/04060/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -297,7 +312,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/celeri/celeri-04070",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/04070/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -312,7 +327,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/concombre/concombre-anglais-04593",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/04593/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -327,7 +342,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/oignon/oignon-jaune-04667",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/04667/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -342,7 +357,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/pomme-de-terre/patate-russet-au-bbq-04720",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/Fruits%20et%20L%C3%A9gumes/04720%20BBQ%20Russet%20Potato%204%20un.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -357,7 +372,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/tomate/tomate-rouge-de-serre-04799",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/04799/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -372,7 +387,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/oignon/oignon-rouge-05029",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/05029/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -387,7 +402,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/fruits/orange/orange-filet-05079",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/05079/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -402,7 +417,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiserie/chocolat/oeuf-a-saveur-de-chocolat-06613",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -417,7 +432,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-de-specialite/fromage-galette-de-la-table-ronde-chevaliers-de-la-table-ronde-07457",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/PRODUITS%20LAITIERS/07457%20Galette%20de%20la%20table%20ronde.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -432,7 +447,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/cheddar/cheddar-medium-ile-aux-grues-07773",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/07773/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -447,7 +462,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-de-specialite/fromage-riopelle-de-lile-en-meule-fromagerie-de-lisle-07781",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/07781/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -462,7 +477,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-de-specialite/fromage-riopelle-de-lile-coupe-fromagerie-de-lisle-07782",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/PRODUITS%20LAITIERS/07782%20Riopelle%20de%20lIsle%20350%20g%20Fromagerie%20de%20lIsle%20(1).jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -477,7 +492,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/soupe-et-bouillon/mets-prepare/nouilles-instantanees-poulet-epice-mr-noodle-08566",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/08566/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -492,7 +507,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/concombre/concombre-libanais-09083",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/09083/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -507,7 +522,22 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/avocat/avocat-en-filet-09190",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/09190/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
+  },
+  {
+    "source": "mayrand",
+    "query": "onsale",
+    "name": "Pain hot-dog x12",
+    "brand": "Pom",
+    "sku": "10158",
+    "price_sale": 3.99,
+    "price_regular": 4.49,
+    "unit_label": "unité (1x12un)",
+    "unit_price": null,
+    "url": "https://mayrand.ca/fr/nos-produits/boulangerie/petit-pain/pain-hot-dog-pom-10158",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/BOULANGERIE/10158%20Pain%20hot%20dog%2012un%20POM.jpg",
+    "category": null,
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -522,7 +552,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/condiment/mayonnaise/mayonnaise-10403",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -537,7 +567,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/mets-surgeles/plat-surgele/feuilletes-style-jamaicain-au-poulet-congele-lloydies-10992",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/10992/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -552,7 +582,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-rape/fromage-mozzarella-stella-rape-20-saputo-11023",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/11023/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -567,7 +597,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/eau/eau-petillante/eau-de-source-petillante-perrier-11036",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/11036/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -582,7 +612,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/croustille-et-grignotine/croustille/croustilles-ondulees-saveur-nature-11188",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/11202/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -597,7 +627,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/croustille-et-grignotine/croustille/croustilles-ondulees-saveur-sel-et-vinaigre-11190",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:36.744Z"
   },
   {
     "source": "mayrand",
@@ -612,7 +642,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/fruit-de-mer-surgele/crevette-cuite-surgelee/crevettes-nordiques-125-175-cg-pearlmark-11445",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -627,7 +657,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boulangerie/pain-tranche/pain-tranche/pain-a-sandwich-100-ble-entier-long-pom-11482",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/11482/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:41.839Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -642,7 +672,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/soupe-et-bouillon/mets-prepare/nouilles-instantanees-boeuf-mr-noodle-11531",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/11531/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -657,7 +687,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/soupe-et-bouillon/mets-prepare/nouilles-instantanees-legumes-mr-noodle-11535",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/11535/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -672,7 +702,22 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/soupe-et-bouillon/mets-prepare/nouilles-instantanees-poulet-mr-noodle-11536",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/11536/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
+  },
+  {
+    "source": "mayrand",
+    "query": "onsale",
+    "name": "Pain hot-dog vapeur 12 un Pom",
+    "brand": "Pom",
+    "sku": "11617",
+    "price_sale": 3.99,
+    "price_regular": 4.49,
+    "unit_label": "unité (1x12un)",
+    "unit_price": null,
+    "url": "https://mayrand.ca/fr/nos-produits/boulangerie/petit-pain/pain-hot-dog-vapeur-pom-11617",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/11617/image-1.png",
+    "category": null,
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -687,7 +732,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boulangerie/gateau/gateau-aux-fruits-deluxe-couronne-grants-12053",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/12053/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -702,7 +747,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boulangerie/viennoiserie-et-gaufre/beignes-aux-patates-a-lerable-nammy-12147",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/12147/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -717,7 +762,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/chou/chou-de-bruxelles-12282",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/12282/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -732,7 +777,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/ingredient-de-patisserie/chocolat-et-cacao-a-cuisson/bouchees-de-paques-freddo-12296",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/12296/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -747,7 +792,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/ingredient-de-patisserie/chocolat-et-cacao-a-cuisson/lapin-surprise-freddo-12298",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/12298/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -762,7 +807,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/aubergine/aubergine-2-un-12319",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/Fruits%20et%20L%C3%A9gumes/30120%20Aubergine%2025%20lb.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -777,7 +822,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/courge-et-courgette/courgette-verte-12324",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/12324/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -792,7 +837,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/croustille-et-grignotine/croustille/takis-fuego-nacho-emballage-multiple-40-pqt-takis-12411",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -807,7 +852,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/fruits/ananas/ananas-12490",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/Fruits%20et%20L%C3%A9gumes/12490%20Ananas.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -822,7 +867,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/laitue/endive-12501",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/Fruits%20et%20L%C3%A9gumes/12501%20Endives.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -837,7 +882,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiserie/chocolat/chocolat-poulailler-12566",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -852,7 +897,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-merguez-12570",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/BOUCHERIE/12570%20Saucisse%20merguez%20750%20g%20Mayrand%20CHEF.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -867,7 +912,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-italienne-forte-12571",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/BOUCHERIE/12571_Saucisse%20italienne%20forte%20CG%20MAYRAND%20CHEF.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -882,7 +927,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-italienne-douce-12572",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/BOUCHERIE/12572_Saucisse%20italienne%20douce%20CG%20MAYRAND%20CHEF.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -897,7 +942,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-chorizo-12573",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/BOUCHERIE/12573%20Saucisse%20chorizo%201%20kg%20MAYRAND%20CHEF.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -912,7 +957,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-portugaise-12574",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/BOUCHERIE/12574_Saucisse%20portugaise%20CG_MAYRAND%20CHEF.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -927,7 +972,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-chair-italienne-forte-12575",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -942,7 +987,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-bacon-fromage-12576",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/BOUCHERIE/12576%20Saucisse%20bacon%20fromage%20CG%20MAYRAND%20CHEF.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -957,7 +1002,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-chair-italienne-douce-12577",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -972,7 +1017,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/fruits/cerise/cerise-rouge-12625",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/Fruits%20et%20L%C3%A9gumes/04045%20Cerise%20rouge.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -987,7 +1032,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/bar-laitier/sirop-barbotine-et-lait-frappe/base-framboise-12626",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/fccbdc33-fea3-4566-a490-92961ddb4c1b.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1002,7 +1047,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/bar-laitier/sirop-barbotine-et-lait-frappe/base-cerise-12627",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/dae12917-1e4b-409a-8c25-27781669f455.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1017,7 +1062,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/bar-laitier/sirop-barbotine-et-lait-frappe/base-lime-12628",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/12628%20Base%20pour%20slush%20lime%204%20L%20Slush%20Puppie-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1032,7 +1077,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/bar-laitier/sirop-barbotine-et-lait-frappe/base-melon-deau-12629",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/12629%20Base%20pour%20slush%20melon%20deau%204%20L%20Slush%20Puppie.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1047,7 +1092,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/bar-laitier/sirop-barbotine-et-lait-frappe/base-neutre-12658",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/12658%20Base%20neutre%204%20L%20Slush%20Puppie-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1062,7 +1107,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiserie/bonbon/bonbon-partie-de-monstre-gelatine-12667",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/12667_Bonbon%20partie%20de%20monstre%20g%C3%A9latine_BRANDSs.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1077,7 +1122,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiserie/chocolat/chocolat-fantome-vrac-12674",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/12674%20Chocolat%20au%20lait%20fant%C3%B4me%2072%20x%2022%20g%20Freddo.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1092,7 +1137,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiserie/chocolat/chocolat-citrouille-caramel-12675",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/12675%20Chocolat%20citrouille%20au%20centre%20caramel%20390%20g%20%20Freddo.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1107,7 +1152,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/noix-et-fruits-secs/noix/plateau-les-enrobes-12682",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/Fruits%20et%20L%C3%A9gumes/12682%20Plateau%20Les%20Enrob%C3%A9s%20DYN.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1122,7 +1167,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/feta/fromage-feta-sans-lactose-12696",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/PRODUITS%20LAITIERS/12696%20Fromage%20feta%20sans%20lactose%203%20kg%20SAPUTO.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1137,7 +1182,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/champignon/champignon-brun-entier-12752",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/Fruits%20et%20L%C3%A9gumes/12752%20Champignon%20brun%20entier%20680%20g.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1152,7 +1197,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiserie/bonbon/bonbon-halloween-assortis-12988",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/12988%20Friandises%20assorties%2090un%20Ferrara.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1167,7 +1212,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/jus-et-boisson/jus-et-boisson-aux-fruits/boisson-peche-13389",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/BOISSONS/13389%20boisson%20peche%20-%206x2L%20FRUIT%C3%89.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1182,7 +1227,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/jus-et-boisson/jus-et-boisson-aux-fruits/boisson-punch-fruits-13395",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/BOISSONS/13395%20boisson%20punch%20aux%20fruits%20-%206x2L%20FRUIT%C3%89.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1197,7 +1242,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/jus-et-boisson/jus-et-boisson-aux-fruits/boisson-limonade-13397",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/BOISSONS/13397%20boisson%20limonade%20-%206x2L%20FRUIT%C3%89.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1212,7 +1257,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/jus-et-boisson/jus-et-boisson-aux-fruits/boisson-raisin-13398",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/BOISSONS/13398%20boisson%20raisin%20-%206x2L%20FRUIT%C3%89.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1227,7 +1272,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/eau/eau-plate/eau-de-source-naturelle-13735",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/13735%20Eau%20de%20source%20naturelle%20NAYA.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1242,7 +1287,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/biscuit-et-craquelin/biscuit-et-gateau/strudel-aux-bleuets-carvin-14081",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/14081/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1257,7 +1302,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/biscuit-et-craquelin/biscuit-et-gateau/strudel-au-caramel-carvin-14082",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/14082/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1272,7 +1317,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/biscuit-et-craquelin/biscuit-et-gateau/strudel-aux-cerises-carvin-14083",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/14083/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:44.858Z"
   },
   {
     "source": "mayrand",
@@ -1287,7 +1332,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/biscuit-et-craquelin/biscuit-et-gateau/strudel-a-la-fraise-carvin-14087",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/14087/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:51.791Z"
   },
   {
     "source": "mayrand",
@@ -1302,7 +1347,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/biscuit-et-craquelin/biscuit-et-gateau/strudel-aux-pommes-carvin-14088",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/14088/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1317,7 +1362,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/condiment/relish/relish-verte-sucree-14112",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/14112%20relish%20verte%20sucr%C3%A9e%202x3.78lt%20WHYTES.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1332,7 +1377,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/suisse-comte-et-gruyere/fromage-louis-dor-meule-fromagerie-du-presbytere-14593",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/14593/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:49.598Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1347,7 +1392,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/suisse-comte-et-gruyere/fromage-louis-dor-coupe-fromagerie-du-presbytere-14594",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/14594/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1362,7 +1407,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiserie/chocolat/chocolat-au-lait-lapin-solide-14703",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/14703_Chocolat%20au%20lait%20lapin%20solide%20CIOCCOLENA.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1377,7 +1422,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/feta/feta-saputo-14801",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/14801/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1392,7 +1437,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/entretien/article-dentretien/chiffon-et-tampon/linge-micro-fibre-bleu-14x14-280-gsm-15126",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/ENTRETIEN/15126%20Linge%20micro-fibre%20bleu%2014_x14_%20280%20GSM%20VIEREDA.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1407,7 +1452,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-de-specialite/fromage-capra-15149",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/PRODUITS%20LAITIERS/15149%20Fromage%20Capra.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1422,7 +1467,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-a-tartiner/fromage-la-fermiere-15381",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/PRODUITS%20LAITIERS/15381%20La%20fermi%C3%A8re.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1437,7 +1482,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/asperge/asperge-15520",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/Fruits%20et%20L%C3%A9gumes/asperges%20vertes.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1452,7 +1497,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/boeuf/boeuf-contre-filet-15627",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1467,7 +1512,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/boeuf/boeuf-bifteck-contre-filet-15628",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/BOUCHERIE/15628%20Bifteck%20de%20contre-filet.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1482,7 +1527,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/boeuf/boeuf-roti-contre-filet-15637",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1497,7 +1542,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/boeuf/boeuf-onglet-15645",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1512,7 +1557,97 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/boeuf/boeuf-onglet-denude-15647",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/BOUCHERIE/50630%20ou%2015647%20Onglet%20de%20boeuf%20frais%201855.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
+  },
+  {
+    "source": "mayrand",
+    "query": "onsale",
+    "name": "15709",
+    "brand": null,
+    "sku": "15709",
+    "price_sale": 10.56,
+    "price_regular": 13.79,
+    "unit_label": "unité (1 kg)",
+    "unit_price": null,
+    "url": "https://mayrand.ca/fr/nos-produits/boucherie/porc/porc-cotelette-desossee-marinade-erable-chipotle-15709",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
+    "category": null,
+    "scraped_at": "2026-06-26T04:45:51.792Z"
+  },
+  {
+    "source": "mayrand",
+    "query": "onsale",
+    "name": "15710",
+    "brand": null,
+    "sku": "15710",
+    "price_sale": 10.56,
+    "price_regular": 13.79,
+    "unit_label": "unité (1 kg)",
+    "unit_price": null,
+    "url": "https://mayrand.ca/fr/nos-produits/boucherie/porc/porc-cotelette-desossee-marinade-dijonnaise-15710",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
+    "category": null,
+    "scraped_at": "2026-06-26T04:45:51.792Z"
+  },
+  {
+    "source": "mayrand",
+    "query": "onsale",
+    "name": "15716",
+    "brand": null,
+    "sku": "15716",
+    "price_sale": 10.56,
+    "price_regular": 13.79,
+    "unit_label": "unité (1 kg)",
+    "unit_price": null,
+    "url": "https://mayrand.ca/fr/nos-produits/boucherie/porc/porc-cotelette-desossee-marinade-souvlaki-15716",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
+    "category": null,
+    "scraped_at": "2026-06-26T04:45:51.792Z"
+  },
+  {
+    "source": "mayrand",
+    "query": "onsale",
+    "name": "15718",
+    "brand": null,
+    "sku": "15718",
+    "price_sale": 10.56,
+    "price_regular": 13.79,
+    "unit_label": "unité (1 kg)",
+    "unit_price": null,
+    "url": "https://mayrand.ca/fr/nos-produits/boucherie/porc/porc-cotelette-desossee-marinade-miel-dijon-15718",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
+    "category": null,
+    "scraped_at": "2026-06-26T04:45:51.792Z"
+  },
+  {
+    "source": "mayrand",
+    "query": "onsale",
+    "name": "15719",
+    "brand": null,
+    "sku": "15719",
+    "price_sale": 10.56,
+    "price_regular": 13.79,
+    "unit_label": "unité (1 kg)",
+    "unit_price": null,
+    "url": "https://mayrand.ca/fr/nos-produits/boucherie/porc/porc-cotelette-desossee-marinade-bbq-mtl-15719",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
+    "category": null,
+    "scraped_at": "2026-06-26T04:45:51.792Z"
+  },
+  {
+    "source": "mayrand",
+    "query": "onsale",
+    "name": "15721",
+    "brand": null,
+    "sku": "15721",
+    "price_sale": 10.56,
+    "price_regular": 13.79,
+    "unit_label": "unité (1 kg)",
+    "unit_price": null,
+    "url": "https://mayrand.ca/fr/nos-produits/boucherie/porc/porc-cotelette-desossee-marinade-habanero-15721",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
+    "category": null,
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1527,7 +1662,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/tomate/tomate-cerise-rouge-sur-vigne-15877",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1542,7 +1677,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/marinade/olive/olives-noires-sechees-lena-18331",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/18331/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1557,7 +1692,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/creme-glacee-et-sorbet/creme-glacee-fraise-coaticook-18802",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/18802/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1572,7 +1707,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/creme-glacee-et-sorbet/creme-glacee-a-lancienne-brisures-de-chocolat-coaticook-18803",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/18803/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1587,7 +1722,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-bleu/fromage-bleu-fermier-meule-fleuron-20005",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/20005/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1602,7 +1737,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/entretien/savon-a-vaisselle/savon-liquide/detergent-liquide-vaisselle-rose-mayrand-chef-21202",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/21202/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1617,7 +1752,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/article-de-cuisine/serviette-et-nappe/linge/linge-a-vaisselle-moy-carreaux-12-morceaux-23x34-arco-22335",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/22335/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1632,7 +1767,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/article-de-cuisine/serviette-et-nappe/linge/linge-a-vaisselle-petit-carreaux-12-morceaux-23x34-arco-22337",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/22337/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:51.792Z"
   },
   {
     "source": "mayrand",
@@ -1647,7 +1782,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/croustille-et-grignotine/croustille/croustilles-variees-en-sachets-old-dutch-22860",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/22860/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1662,7 +1797,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-burger-23294",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1677,7 +1812,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/emballage/vaisselle-jetable/assiette-jetable/assiette-compostable-7-table-accents-23751",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/23751/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1692,7 +1827,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/emballage/vaisselle-jetable/assiette-jetable/assiette-compostable-10-table-accents-23753",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/23753/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1707,7 +1842,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/emballage/vaisselle-jetable/assiette-jetable/assiette-compostable-9-table-accents-23755",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/23755/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1722,7 +1857,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/oeuf/oeuf-brun-moyen-biologique-26200",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1737,7 +1872,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/noix-et-fruits-secs/noix/noix-de-cajou-rotie-non-salee-mayrand-chef-26490",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/26490/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1752,7 +1887,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/noix-et-fruits-secs/noix-et-fruits-secs-vrac/noix-de-cajou-rotie-salee-mayrand-chef-26491",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/26491/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:42:56.795Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1767,7 +1902,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/noix-et-fruits-secs/noix-et-fruits-secs-vrac/melange-noix-de-luxe-salees-mayrand-chef-26504",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/26504/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1775,14 +1910,14 @@
     "name": "Fromage en grain 2 kg",
     "brand": "St-Albert",
     "sku": "27648",
-    "price_sale": 24.99,
+    "price_sale": 25.99,
     "price_regular": 29.99,
     "unit_label": "unité (2kg)",
     "unit_price": null,
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-en-grain/fromage-en-grain-st-albert-27648",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/27648/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1797,7 +1932,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/huile-et-vinaigre/huile/huile-vegetale-unico-28536",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/28536/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1812,7 +1947,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/poisson-surgele/poissons-surgeles/steak-de-thon-yellowfin-6-oz-surgele-x4-pearlmark-29456",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/SURGELE/29456%20Steaks%20de%20thon%204%20x%20170%20g%20Pearlmark%20(2).jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1827,7 +1962,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-merguez-29495",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1842,7 +1977,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/fruits/fraise/fraise-qc-30121",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/30121/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1857,7 +1992,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/viande-surgelee/volaille-surgelee/ailes-de-poulet-cuites-bbq-congelees-mayrand-chef-30911",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/30911/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1872,7 +2007,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/vin-et-biere/coffret-bieres-quatuor-belle-gueule-30942",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/30942/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1887,7 +2022,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/sauce/sauce-deshydratee/epaississant-alimentaire-instantanne-consistaide-31087",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1902,7 +2037,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boulangerie/tortilla-et-pain-pita/tortillas-au-ble-7-pom-31583",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/31583/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1917,7 +2052,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boulangerie/tortilla-et-pain-pita/tortillas-blanc-7-pom-31584",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/31584/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1932,7 +2067,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boulangerie/tortilla-et-pain-pita/tortillas-blanc-10-pom-31585",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/31585/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1947,7 +2082,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-de-specialite/fromage-fermier-le-cousin-le-cousin-31704",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/31704/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1962,7 +2097,22 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/poisson-et-viande-en-conserve/poisson-en-conserve/thon-pale-en-morceaux-dans-leau-valli-32219",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/32219/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.957Z"
+  },
+  {
+    "source": "mayrand",
+    "query": "onsale",
+    "name": "Pains à hamburger géants au sésame x12",
+    "brand": "Pom",
+    "sku": "32333",
+    "price_sale": 3.99,
+    "price_regular": 4.49,
+    "unit_label": "unité (1x732g)",
+    "unit_price": null,
+    "url": "https://mayrand.ca/fr/nos-produits/boulangerie/petit-pain/pains-a-hamburger-geants-au-sesame-pom-32333",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/32333/image-1.png",
+    "category": null,
+    "scraped_at": "2026-06-26T04:45:58.957Z"
   },
   {
     "source": "mayrand",
@@ -1977,7 +2127,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiserie/chocolat/chocolat-ferrero-rocher-32607",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.958Z"
   },
   {
     "source": "mayrand",
@@ -1992,7 +2142,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-italienne-douce-roma-32731",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.958Z"
   },
   {
     "source": "mayrand",
@@ -2007,7 +2157,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/saucisse/saucisse-italienne-forte-roma-32732",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/32732/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.958Z"
   },
   {
     "source": "mayrand",
@@ -2022,7 +2172,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/cristal-et-sirop/sirop/sirop-aux-concombres-mathieu-teisseire-32892",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/32892/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.958Z"
   },
   {
     "source": "mayrand",
@@ -2037,7 +2187,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/creme-glacee-et-sorbet/creme-glacee-vanille-coaticook-33606",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/33606/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.958Z"
   },
   {
     "source": "mayrand",
@@ -2052,7 +2202,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/creme-glacee-et-sorbet/creme-glacee-erable-et-noix-coaticook-33607",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/33607/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.958Z"
   },
   {
     "source": "mayrand",
@@ -2067,7 +2217,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/creme-glacee-et-sorbet/creme-glacee-marbree-au-caramel-coaticook-33610",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/33610/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.958Z"
   },
   {
     "source": "mayrand",
@@ -2082,7 +2232,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/creme-glacee-et-sorbet/creme-glacee-double-chocolat-coaticook-33611",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/33611/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.958Z"
   },
   {
     "source": "mayrand",
@@ -2097,7 +2247,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/creme-glacee-et-sorbet/creme-glacee-sucre-derable-coaticook-33612",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/33612/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.958Z"
   },
   {
     "source": "mayrand",
@@ -2112,7 +2262,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/creme-glacee-et-sorbet/creme-glacee-chocolat-coaticook-33615",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/33615/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.958Z"
   },
   {
     "source": "mayrand",
@@ -2127,7 +2277,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/creme-glacee-et-sorbet/creme-glacee-cerise-noire-coaticook-33616",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/33616/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:45:58.958Z"
   },
   {
     "source": "mayrand",
@@ -2142,7 +2292,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-de-specialite/macpherson-de-lisle-from-isle-aux-grues-33685",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/33685/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2157,7 +2307,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/produits-laitiers/fromage/fromage-de-specialite/macpherson-de-lisle-coupe-33686",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/PRODUITS%20LAITIERS/33686%20MacPherson%20de%20Lisle%20Coup%C3%A9%20%20Fromagerie%20de%20l%C3%8Ele-Aux-Grues.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2172,7 +2322,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiserie/chocolat/chocolat-ferrero-collection-noisette-33924",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2187,7 +2337,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/ingredient-de-patisserie/ingredient-de-patisserie/lait-de-coco-34179",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/34179%20lait%20de%20coco%2012x398ml%20AGROCAN.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2202,7 +2352,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/panettone/colombe-agneau-traditionel-au-beurre-34596",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.741Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2217,7 +2367,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/marinade/cornichon-et-oignon/cornichons-aneth-tranches-sandwich-supreme-35412",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/35412/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.742Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2232,7 +2382,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/vin-et-biere/sangria-original-pepito-36608",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/36608/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:03.742Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2247,7 +2397,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/vin-et-biere/sangria-rosada-pepito-36609",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/36609/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2262,7 +2412,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/pates-surgelees/pates-garnies-surgelees/mini-tortellini-a-la-viande-surgele-villa-ravioli-37504",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/37504/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2277,7 +2427,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/surgele/pates-surgelees/pates-garnies-surgelees/mini-tortellini-au-fromage-surgele-villa-ravioli-37526",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/37526/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2292,7 +2442,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/champignon/champignon-blanc-entier-2-40092",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/40092/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2307,7 +2457,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/confiserie/bonbon/bonbon-halloween-assortis-40461",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/40461%20M%C3%A9lange%20de%20bonbons%20Halloween%20Querico.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2322,7 +2472,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/poivron/poivron-couleur-sac-40564",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/40564/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2337,7 +2487,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/tomate/tomate-rouge-de-serre-40734",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/40734/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2352,7 +2502,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/fruits-et-legumes/legumes/laitue/laitue-romaine-coeur-40917",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/40917/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2367,7 +2517,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/fruit-en-conserve/fruits-en-conserve-et-gelees/ananas-tranches-dans-un-sirop-leger-agrocan-41772",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/41772/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2382,7 +2532,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/marinade/piment/piment-jalapeno-fort-dans-lhuile-valli-45557",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/45557/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2397,7 +2547,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boulangerie/tortilla-et-pain-pita/tortillas-ble-entier-10-pom-47408",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/47408/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2412,7 +2562,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/condiment/mayonnaise/sauce-a-salade-reguliere-48133",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/raw_assets/public/MAYRAND-P3-CHILD-THEME/images/icons-modules/placeHolderProduct.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2427,7 +2577,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/porc/porc-roti-coupe-centre-desosse-50213",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/50213/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2442,7 +2592,22 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/porc/porc-cotelette-longe-desossee-fr-50220",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/50220/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
+  },
+  {
+    "source": "mayrand",
+    "query": "onsale",
+    "name": "52042",
+    "brand": null,
+    "sku": "52042",
+    "price_sale": 26.36,
+    "price_regular": 42.36,
+    "unit_label": "unité (4 5 x ±4.5KG)",
+    "unit_price": null,
+    "url": "https://mayrand.ca/fr/nos-produits/boucherie/porc/porc-longe-desossee-s-v-52042",
+    "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/52042/image-1.jpg",
+    "category": null,
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2457,7 +2622,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/boeuf/boeuf-hache-mi-maigre-fr-52239",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/52239/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2472,7 +2637,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boucherie/volaille/poulet-sans-antibiotiques-2kg-vdc-vdc-52415",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/52415/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2487,7 +2652,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/poissonnerie/saumon/filet-de-saumon-atlantique-frais-53132",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/53132/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2502,7 +2667,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/poissonnerie/huitre/huitre-malpeque-53145",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/53145/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2517,7 +2682,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/eau/eau-petillante/eau-source-gazeifiee-canette-slim-perrier-66786",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/66786/image-1.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2532,7 +2697,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/boisson/boisson-energisante/boisson-powerade-paquet-equipe-saveurs-variees-66961",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/BOISSONS/66961%20Boisson%20powerade%20paquet%20%C3%A9quipe%20saveurs%20vari%C3%A9es%20%20Powerade.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2547,7 +2712,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/huile-et-vinaigre/vinaigre-balsamique/creme-de-vinaigre-balsamique-valli-67104",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/67104/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2562,7 +2727,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/epicerie/tomate-en-conserve/tomate-en-conserve/tomates-italiennes-entieres-68387",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/%C3%89picerie/68387%20Tomates%20italiennes%20enti%C3%A8res%202%2c84%20L%20Delicia.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2577,7 +2742,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/entretien/nettoyeur/nettoyeur-a-vitre/nettoyant-a-vitre-mayrand-chef-91023",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/91023/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:05.733Z"
   },
   {
     "source": "mayrand",
@@ -2592,7 +2757,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/entretien/nettoyeur/nettoyeur/nettoyant-au-pin-pour-plancher-mayrand-chef-91028",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/91028/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:10.051Z"
   },
   {
     "source": "mayrand",
@@ -2607,7 +2772,7 @@
     "url": "https://mayrand.ca/fr/nos-produits/entretien/nettoyeur/nettoyeur-tout-usage/nettoyant-tout-usage-mayrand-chef-91034",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/CatalogProductImages/fr/91034/image-1.png",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:10.051Z"
   },
   {
     "source": "mayrand",
@@ -2622,6 +2787,6 @@
     "url": "https://mayrand.ca/fr/nos-produits/entretien/sac-a-ordure-et-poubelle/sac-a-ordure/sac-a-ordure-extra-fort-noir-35-x-50-mayrand-chef-93167",
     "image": "https://341647818.fs1.hubspotusercontent-na3.net/hubfs/341647818/ENTRETIEN/93167%20Sac%20%C3%A0%20ordure%20extra-fort%20noir%2035%20x%2050.jpg",
     "category": null,
-    "scraped_at": "2026-06-25T04:43:10.303Z"
+    "scraped_at": "2026-06-26T04:46:10.051Z"
   }
 ]
